@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 module.exports = {
   extends: ["config:base"],
   onboarding: false,
@@ -33,7 +32,6 @@ module.exports = {
     },
   ],
 };
-=======
 module.exports = {
   extends: ["config:base"],
   onboarding: false,
@@ -68,4 +66,4 @@ module.exports = {
     },
   ],
 };
->>>>>>> 74093c8b193bea8aab6fff2202ad7ad0d2e7e85f
+
