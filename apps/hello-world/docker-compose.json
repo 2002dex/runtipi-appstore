@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "services": [
     {
@@ -9,3 +10,16 @@
   ],
   "$schema": "../dynamic-compose-schema.json"
 }
+=======
+{
+  "services": [
+    {
+      "name": "hello-world",
+      "image": "crccheck/hello-world:latest",
+      "isMain": true,
+      "internalPort": 8000
+    }
+  ],
+  "$schema": "../dynamic-compose-schema.json"
+}
+>>>>>>> 74093c8b193bea8aab6fff2202ad7ad0d2e7e85f
