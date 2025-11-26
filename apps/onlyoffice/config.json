@@ -1,0 +1,16 @@
+{
+  "$schema": "../app-info-schema.json",
+  "id": "onlyoffice",
+  "available": true,
+  "port": 9980,
+  "name": "ONLYOFFICE Docs (Enterprise)",
+  "version": "latest",
+  "tipi_version": 1,
+  "short_desc": "ONLYOFFICE Document Server for collaborative editing",
+  "author": "ONLYOFFICE",
+  "source": "https://github.com/ONLYOFFICE/DocumentServer",
+  "categories": ["data"],
+  "exposable": true,
+  "dynamic_config": true,
+  "supported_architectures": ["amd64", "arm64"]
+}

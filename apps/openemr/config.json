@@ -1,0 +1,18 @@
+{
+  "$schema": "../app-info-schema.json",
+  "id": "openemr",
+  "available": true,
+  "exposable": true,
+  "port": 8084,
+  "name": "OpenEMR",
+  "short_desc": "Open-source electronic health records and medical practice management",
+  "description": "OpenEMR - an open-source electronic health records and medical practice management application.",
+  "version": "7.0.3",
+  "tipi_version": 1,
+  "dynamic_config": true,
+  "author": "OpenEMR Community",
+  "source": "https://github.com/openemr/openemr",
+  "website": "https://www.open-emr.org",
+  "supported_architectures": ["arm64", "amd64"],
+  "categories": ["data", "security"]
+}

@@ -1,0 +1,50 @@
+{
+  "services": [
+    {
+      "image": "ghcr.io/blakeblackshear/frigate:stable-rk",
+      "name": "frigate",
+      "internalPort": 5000,
+      "isMain": true,
+      "networkMode": "host",
+      "privileged": true,
+      "shmSize": "536870912", 
+      "stopGracePeriod": "30s",
+      "devices":[
+        "/dev/dri",
+        "/dev/mpp_service",
+        "/dev/dma_heap",
+        "/dev/rga",
+        "/dev/dri/renderD128", 
+        "/dev/dri/renderD129"
+      ],
+      "addPorts": [
+        {
+          "containerPort": 8554,
+          "hostPort": 8554,
+          "tcp": true,
+          "udp": true,
+          "interface": "${NETWORK_INTERFACE:-0.0.0.0}"
+        },
+        {
+          "containerPort": 5000,
+          "hostPort": 5000
+        }
+      ],
+      "volumes": [
+        {
+          "hostPath": "/etc/localtime",
+          "containerPath": "/etc/localtime:ro"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/config",
+          "containerPath": "/config"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/storage",
+          "containerPath": "/media/frigate"
+        }
+      ]
+    }
+  ],
+  "$schema":  "../dynamic-compose-schema.json"
+}

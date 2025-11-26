@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  db:
+    image: mariadb:10.5
+    container_name: openemr-db
+    restart: unless-stopped
+    command:
+      - 'mysqld'
+      - '--character-set-server=utf8mb4'
+    environment:
+      MYSQL_ROOT_PASSWORD: "${OPENEMR_MYSQL_ROOT_PASSWORD:-root}"
+      MYSQL_DATABASE: openemr
+      MYSQL_USER: openemr
+      MYSQL_PASSWORD: "${OPENEMR_MYSQL_PASSWORD:-openemr}"
+    volumes:
+      - openemr_databasevolume:/var/lib/mysql
+    networks:
+      - tipi_main_network
+    labels:
+      - runtipi.managed=true
+
+  openemr:
+    image: openemr/openemr:7.0.3
+    container_name: openemr
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8084}:80"
+      - "8443:443"
+    volumes:
+      - openemr_sitevolume:/var/www/localhost/htdocs/openemr/sites
+      - openemr_logvolume01:/var/log
+    environment:
+      MYSQL_HOST: db
+      MYSQL_ROOT_PASS: "${OPENEMR_MYSQL_ROOT_PASSWORD:-root}"
+      MYSQL_DATABASE: openemr
+      MYSQL_USER: openemr
+      MYSQL_PASS: "${OPENEMR_MYSQL_PASSWORD:-openemr}"
+      OE_USER: "${OPENEMR_ADMIN_USER:-admin}"
+      OE_PASS: "${OPENEMR_ADMIN_PASS:-pass}"
+    depends_on:
+      - db
+    networks:
+      - tipi_main_network
+    labels:
+      - runtipi.managed=true
+volumes:
+  openemr_databasevolume:
+  openemr_sitevolume:
+  openemr_logvolume01:
+networks:
+  tipi_main_network:
+    external: true

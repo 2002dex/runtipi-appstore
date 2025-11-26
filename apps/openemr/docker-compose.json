@@ -1,0 +1,65 @@
+{
+  "$schema": "../dynamic-compose-schema.json",
+  "services": [
+    {
+      "name": "db",
+      "image": "mariadb:10.5",
+      "internalPort": 3306,
+      "addToMainNetwork": true,
+      "command": ["mysqld","--character-set-server=utf8mb4"],
+      "environment": {
+        "MYSQL_ROOT_PASSWORD": "${OPENEMR_MYSQL_ROOT_PASSWORD:-root}",
+        "MYSQL_DATABASE": "openemr",
+        "MYSQL_USER": "openemr",
+        "MYSQL_PASSWORD": "${OPENEMR_MYSQL_PASSWORD:-openemr}"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/openemr/mysql",
+          "containerPath": "/var/lib/mysql"
+        }
+      ],
+      "isMain": false
+    },
+    {
+      "name": "openemr",
+      "image": "openemr/openemr:7.0.3",
+      "isMain": true,
+      "internalPort": 80,
+      "addToMainNetwork": true,
+      "addPorts": [
+        {
+          "containerPort": 80,
+          "hostPort": "${APP_PORT:-8084}",
+          "tcp": true
+        },
+        {
+          "containerPort": 443,
+          "hostPort": 8443,
+          "tcp": true
+        }
+      ],
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/openemr/sites",
+          "containerPath": "/var/www/localhost/htdocs/openemr/sites"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/openemr/log",
+          "containerPath": "/var/log"
+        }
+      ],
+      "environment": {
+        "MYSQL_HOST": "db",
+        "MYSQL_PORT": "3306",
+        "MYSQL_ROOT_PASS": "${OPENEMR_MYSQL_ROOT_PASSWORD:-root}",
+        "MYSQL_DATABASE": "openemr",
+        "MYSQL_USER": "openemr",
+        "MYSQL_PASS": "${OPENEMR_MYSQL_PASSWORD:-openemr}",
+        "OE_USER": "${OPENEMR_ADMIN_USER:-admin}",
+        "OE_PASS": "${OPENEMR_ADMIN_PASS:-pass}"
+      },
+      "dependsOn": ["db"]
+    }
+  ]
+}
