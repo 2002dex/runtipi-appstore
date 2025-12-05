@@ -2,21 +2,26 @@
   "services": [
     {
       "name": "jellyfin",
-      "image": "lscr.io/linuxserver/jellyfin:10.11.3",
+      "image": "lscr.io/linuxserver/jellyfin:10.11.4",
       "isMain": true,
       "internalPort": 8096,
-      "environment": {
-        "PUID": "1000",
-        "PGID": "1000",
-        "TZ": "${TZ}",
-        "JELLYFIN_PublishedServerUrl": "${APP_PROTOCOL:-http}://${APP_DOMAIN}/"
-      },
-      "devices":[
-        "/dev/dri:/dev/dri",
-        "/dev/mpp_service:/dev/mpp_service",
-        "/dev/dma_heap:/dev/dma_heap",
-        "/dev/rga:/dev/rga",
-        "/dev/mali0:/dev/mali0"
+      "environment": [
+        {
+          "key": "PUID",
+          "value": "1000"
+        },
+        {
+          "key": "PGID",
+          "value": "1000"
+        },
+        {
+          "key": "TZ",
+          "value": "${TZ}"
+        },
+        {
+          "key": "JELLYFIN_PublishedServerUrl",
+          "value": "${APP_PROTOCOL:-http}://${APP_DOMAIN}/"
+        }
       ],
       "volumes": [
         {
@@ -30,5 +35,6 @@
       ]
     }
   ],
-  "$schema": "../dynamic-compose-schema.json"
+  "schemaVersion": 2,
+  "$schema": "https://schemas.runtipi.io/v2/dynamic-compose.json"
 }

@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:10.11.3
+    image: lscr.io/linuxserver/jellyfin:10.11.4
     container_name: jellyfin
     volumes:
       - ${APP_DATA_DIR}/data/config:/config
@@ -14,11 +14,6 @@ services:
     restart: unless-stopped
     ports:
       - ${APP_PORT}:8096
-    devices:
-      - /dev/dri:/dev/dri
-      - /dev/dma_heap:/dev/dma_heap
-      - /dev/rga:/dev/rga
-      - /dev/mpp_service:/dev/mpp_service
     networks:
       - tipi_main_network
     labels:
