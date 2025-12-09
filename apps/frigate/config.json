@@ -3,7 +3,7 @@
   "id": "frigate",
   "available": true,
   "deprecated": false,
-  "port": 8554,
+  "port": 8971,
   "name": "Frigate",
   "description": "A complete and local NVR designed for Home Assistant with AI object detection. Uses OpenCV and Tensorflow to perform realtime object detection locally for IP cameras.",
   "version": "0.16.1-rk",

@@ -17,6 +17,7 @@ services:
     environment:
       - FRIGATE_RTSP_PASSWORD="password"
       - TZ=${TZ} # Can use any env variable. See "environment variables" section in the docs
+      - FRIGATE_JWT_SECRET=iBFcoalGWCj30UW2BzLnShsRsRF7zcnJ
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${APP_DATA_DIR}/data/config:/config
@@ -26,7 +27,7 @@ services:
         tmpfs:
           size: 1000000000
     ports:
-      - 5000:5000 # Port used by Web UI.
+      - 8971:8971 # Port used by Web UI.
       - 8554:8554 # RTSP feeds
       - 8555:8555/tcp # WebRTC over tcp
       - 8555:8555/udp # WebRTC over udp
@@ -36,7 +37,7 @@ services:
       # Main
       traefik.enable: true
       traefik.http.middlewares.frigate-web-redirect.redirectscheme.scheme: https
-      traefik.http.services.frigate.loadbalancer.server.port: 8554
+      traefik.http.services.frigate.loadbalancer.server.port: 8971
       # Web
       traefik.http.routers.frigate-insecure.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.frigate-insecure.entrypoints: web

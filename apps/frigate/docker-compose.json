@@ -6,7 +6,7 @@
       "name": "frigate",
       "image": "ghcr.io/blakeblackshear/frigate:0.16.1-rk",
       "isMain": true,
-      "internalPort": 8554,
+      "internalPort": 8971,
       "networkMode": "host",
       "privileged": true,
       "shmSize": "536870912",
@@ -27,8 +27,8 @@
           "interface": "${NETWORK_INTERFACE:-0.0.0.0}"
         },
         {
-          "containerPort": 5000,
-          "hostPort": 5000,
+          "containerPort": 8971,
+          "hostPort": 8971,
           "tcp": true
         }
       ],
@@ -40,6 +40,10 @@
         { 
           "key": "TZ", 
           "value": "${TZ}" 
+        },
+        {
+          "key": "FRIGATE_JWT_SECRET",
+          "value": "iBFcoalGWCj30UW2BzLnShsRsRF7zcnJ"
         }
       ],
       "volumes": [
