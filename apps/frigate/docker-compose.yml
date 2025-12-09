@@ -2,7 +2,7 @@ version: "3.9"
 services:
   frigate:
     container_name: frigate
-    image: ghcr.io/blakeblackshear/frigate:stable-rk
+    image: ghcr.io/blakeblackshear/frigate:0.16.1-rk
     privileged: true # this may not be necessary for all setups
     restart: unless-stopped
     stop_grace_period: 30s # allow enough time to shut down the various services
@@ -36,7 +36,7 @@ services:
       # Main
       traefik.enable: true
       traefik.http.middlewares.frigate-web-redirect.redirectscheme.scheme: https
-      traefik.http.services.frigate.loadbalancer.server.port: 5000
+      traefik.http.services.frigate.loadbalancer.server.port: 8554
       # Web
       traefik.http.routers.frigate-insecure.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.frigate-insecure.entrypoints: web
