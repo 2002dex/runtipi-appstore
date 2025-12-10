@@ -45,6 +45,10 @@
         {
           "key": "N8N_DEFAULT_BINARY_DATA_MODE",
           "value": "filesystem"
+        },
+        {
+          "key": "N8N_PROXY_HOPS",
+          "value": "1"
         }
       ],
       "dependsOn": {

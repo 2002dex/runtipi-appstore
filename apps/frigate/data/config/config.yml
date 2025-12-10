@@ -21,6 +21,8 @@ cameras:
       enabled: true
     record:
       enabled: true
+detect:
+  enabled: true
 audio:
   # Optional: Enable audio events (default: shown below)
   enabled: true
@@ -39,3 +41,5 @@ semantic_search:
   enabled: true
   reindex: false
   model_size: small
+tls:
+  enabled: false
