@@ -2,7 +2,7 @@
   "services": [
     {
       "name": "n8n-1",
-      "image": "n8nio/n8n:1.119.2",
+      "image": "n8nio/n8n:1.120.4",
       "isMain": true,
       "internalPort": 5678,
       "environment": [
@@ -45,6 +45,26 @@
         {
           "key": "N8N_DEFAULT_BINARY_DATA_MODE",
           "value": "filesystem"
+        },
+        {
+          "key": "N8N_PROXY_HOPS",
+          "value": "1"
+        },
+        {
+          "key": "N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS",
+          "value": "true"
+        },
+        {
+          "key": "N8N_RUNNERS_ENABLED",
+          "value": "true"
+        },
+        {
+          "key": "N8N_BLOCK_ENV_ACCESS_IN_NODE",
+          "value": "false"
+        },
+        {
+          "key": "N8N_GIT_NODE_DISABLE_BARE_REPOS",
+          "value": "true"
         }
       ],
       "dependsOn": {
