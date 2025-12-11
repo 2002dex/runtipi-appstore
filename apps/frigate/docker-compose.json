@@ -13,10 +13,12 @@
       "stopGracePeriod": "30s",
       "devices": [
         "/dev/dri",
-        "/dev/dma_heap",
+        "/dev/dri/card0:/dev/dri/card0",
+        "/dev/video-dec0:/dev/video-dec0",
+        "/dev/video-enc0:/dev/video-enc0",
         "/dev/rga",
         "/dev/mpp_service",
-        "/dev/dri/renderD128",
+        "/dev/dri/renderD128:/dev/dri/renderD128",
         "/dev/dri/renderD129"
       ],
       "addPorts": [

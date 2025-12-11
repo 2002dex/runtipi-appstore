@@ -1,7 +1,7 @@
 mqtt:
   enabled: false
 ffmpeg:
-  hwaccel_args: preset-rkmpp
+  hwaccel_args: preset-rk-h264
   input_args: preset-rtsp-restream
   output_args:
     record: preset-record-generic-audio-copy
