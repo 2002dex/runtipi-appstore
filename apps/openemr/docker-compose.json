@@ -9,6 +9,18 @@
         { 
           "key": "MYSQL_ROOT_PASSWORD", 
           "value": "${MYSQL_ROOT_PASSWORD:-root}" 
+        },
+        { 
+          "key": "MYSQL_DATABASE", 
+          "value": "openemr" 
+        },
+        { 
+          "key": "MYSQL_USER", 
+          "value": "${MYSQL_USER:-openemr}" 
+        },
+        { 
+          "key": "MYSQL_PASSWORD", 
+          "value": "${MYSQL_PASS:-openemr}" 
         }
       ],
       "volumes": [
@@ -29,12 +41,12 @@
       "addPorts": [
         {
           "containerPort": 80,
-          "hostPort": "${APP_PORT:-8084}",
+          "hostPort": 8084,
           "tcp": true
         },
         {
           "containerPort": 443,
-          "hostPort": 8443,
+          "hostPort": 9443,
           "tcp": true
         }
       ],

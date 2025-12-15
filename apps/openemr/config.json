@@ -14,5 +14,45 @@
   "source": "https://github.com/openemr/openemr",
   "website": "https://www.open-emr.org",
   "supported_architectures": ["arm64", "amd64"],
-  "categories": ["data", "security"]
+  "categories": ["data", "security"],
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "OpenEMR Admin username",
+      "required": true,
+      "default": "admin",
+      "env_variable": "OE_USER"
+    },
+    {
+      "type": "password",
+      "label": "OpenEMR Admin password",
+      "required": true,
+      "default": "pass",
+      "env_variable": "OE_PASS",
+      "min": 4
+    },
+    {
+      "type": "password",
+      "label": "MariaDB root password",
+      "required": true,
+      "default": "root",
+      "env_variable": "MYSQL_ROOT_PASSWORD",
+      "min": 4
+    },
+    {
+      "type": "text",
+      "label": "MariaDB username",
+      "required": true,
+      "default": "openemr",
+      "env_variable": "MYSQL_USER"
+    },
+    {
+      "type": "password",
+      "label": "MariaDB password",
+      "required": true,
+      "default": "openemr",
+      "env_variable": "MYSQL_PASS",
+      "min": 4
+    }
+  ]
 }

@@ -17,8 +17,8 @@ services:
     container_name: openemr
     restart: always
     ports:
-      - "${APP_PORT:-8084}:80"
-      - "8443:443"
+      - "${HOST_PORT:-8084}:80"
+      - "9443:443"
     volumes:
       - ${APP_DATA_DIR}/data/site:/var/www/localhost/htdocs/openemr/sites
       - ${APP_DATA_DIR}/data/logs:/var/log
