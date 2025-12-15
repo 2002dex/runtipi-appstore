@@ -4,22 +4,11 @@
     {
       "name": "mysql",
       "image": "mariadb:10.5",
+      "command": ["mysqld","--character-set-server=utf8mb4"],
       "environment": [
         { 
           "key": "MYSQL_ROOT_PASSWORD", 
           "value": "${MYSQL_ROOT_PASSWORD:-root}" 
-        },
-        { 
-          "key": "MYSQL_DATABASE", 
-          "value": "openemr" 
-        },
-        { 
-          "key": "MYSQL_USER", 
-          "value": "${MYSQL_USER:-openemr}" 
-        },
-        { 
-          "key": "MYSQL_PASSWORD", 
-          "value": "${MYSQL_PASS:-openemr}" 
         }
       ],
       "volumes": [

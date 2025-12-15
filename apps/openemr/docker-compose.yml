@@ -21,11 +21,10 @@ services:
       - "8443:443"
     volumes:
       - ${APP_DATA_DIR}/data/site:/var/www/localhost/htdocs/openemr/sites
-      - ${APP_DATA_DIR}/data/logs:/var/www/localhost/htdocs/openemr/sites/default/logs
+      - ${APP_DATA_DIR}/data/logs:/var/log
     environment:
       MYSQL_HOST: mysql
       MYSQL_ROOT_PASS: "${MYSQL_ROOT_PASSWORD:-root}"
-      MYSQL_DATABASE: openemr
       MYSQL_USER: openemr
       MYSQL_PASS: "${MYSQL_PASSWORD:-openemr}"
       OE_USER: "${OE_USER:-admin}"
