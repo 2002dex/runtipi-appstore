@@ -1,22 +1,32 @@
 {
-  "$schema": "../dynamic-compose-schema.json",
+  "schemaVersion": 2,
   "services": [
     {
-      "name": "db",
+      "name": "mysql",
       "image": "mariadb:10.5",
-      "internalPort": 3306,
-      "addToMainNetwork": true,
-      "command": ["mysqld","--character-set-server=utf8mb4"],
-      "environment": {
-        "MYSQL_ROOT_PASSWORD": "${OPENEMR_MYSQL_ROOT_PASSWORD:-root}",
-        "MYSQL_DATABASE": "openemr",
-        "MYSQL_USER": "openemr",
-        "MYSQL_PASSWORD": "${OPENEMR_MYSQL_PASSWORD:-openemr}"
-      },
+      "environment": [
+        { 
+          "key": "MYSQL_ROOT_PASSWORD", 
+          "value": "${MYSQL_ROOT_PASSWORD:-root}" 
+        },
+        { 
+          "key": "MYSQL_DATABASE", 
+          "value": "openemr" 
+        },
+        { 
+          "key": "MYSQL_USER", 
+          "value": "${MYSQL_USER:-openemr}" 
+        },
+        { 
+          "key": "MYSQL_PASSWORD", 
+          "value": "${MYSQL_PASS:-openemr}" 
+        }
+      ],
       "volumes": [
         {
-          "hostPath": "${APP_DATA_DIR}/openemr/mysql",
-          "containerPath": "/var/lib/mysql"
+          "hostPath": "${APP_DATA_DIR}/data/mysql",
+          "containerPath": "/var/lib/mysql",
+          "readOnly": false
         }
       ],
       "isMain": false
@@ -41,25 +51,43 @@
       ],
       "volumes": [
         {
-          "hostPath": "${APP_DATA_DIR}/openemr/sites",
-          "containerPath": "/var/www/localhost/htdocs/openemr/sites"
+          "hostPath": "${APP_DATA_DIR}/data/sites",
+          "containerPath": "/var/www/localhost/htdocs/openemr/sites",
+          "readOnly": false
         },
         {
-          "hostPath": "${APP_DATA_DIR}/openemr/log",
-          "containerPath": "/var/log"
+          "hostPath": "${APP_DATA_DIR}/data/log",
+          "containerPath": "/var/log",
+          "readOnly": false
         }
       ],
-      "environment": {
-        "MYSQL_HOST": "db",
-        "MYSQL_PORT": "3306",
-        "MYSQL_ROOT_PASS": "${OPENEMR_MYSQL_ROOT_PASSWORD:-root}",
-        "MYSQL_DATABASE": "openemr",
-        "MYSQL_USER": "openemr",
-        "MYSQL_PASS": "${OPENEMR_MYSQL_PASSWORD:-openemr}",
-        "OE_USER": "${OPENEMR_ADMIN_USER:-admin}",
-        "OE_PASS": "${OPENEMR_ADMIN_PASS:-pass}"
-      },
-      "dependsOn": ["db"]
+      "environment": [
+        { 
+          "key": "MYSQL_HOST", 
+          "value": "mysql" 
+        },
+        { 
+          "key": "MYSQL_ROOT_PASS", 
+          "value": "${MYSQL_ROOT_PASSWORD:-root}" 
+        },
+        { 
+          "key": "MYSQL_USER", 
+          "value": "${MYSQL_USER:-openemr}" 
+        },
+        { 
+          "key": "MYSQL_PASS", 
+          "value": "${MYSQL_PASS:-openemr}" 
+        },
+        { 
+          "key": "OE_USER", 
+          "value": "${OE_USER:-admin}" 
+        },
+        { 
+          "key": "OE_PASS", 
+          "value": "${OE_PASS:-pass}" 
+        }
+      ],
+      "dependsOn": ["mysql"]
     }
   ]
 }

@@ -1,53 +1,41 @@
-version: '3.9'
-
+version: '3.1'
 services:
-  db:
+  mysql:
     image: mariadb:10.5
     container_name: openemr-db
-    restart: unless-stopped
-    command:
-      - 'mysqld'
-      - '--character-set-server=utf8mb4'
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: "${OPENEMR_MYSQL_ROOT_PASSWORD:-root}"
-      MYSQL_DATABASE: openemr
-      MYSQL_USER: openemr
-      MYSQL_PASSWORD: "${OPENEMR_MYSQL_PASSWORD:-openemr}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-root}"
+      MYSQL_DATABASE: "openemr"
+      MYSQL_USER: "${MYSQL_USER:-openemr}"
+      MYSQL_PASSWORD: "${MYSQL_PASS:-openemr}"
     volumes:
-      - openemr_databasevolume:/var/lib/mysql
-    networks:
-      - tipi_main_network
-    labels:
-      - runtipi.managed=true
+      - ${APP_DATA_DIR}/data/mysql:/var/lib/mysql
 
   openemr:
     image: openemr/openemr:7.0.3
     container_name: openemr
-    restart: unless-stopped
+    restart: always
     ports:
       - "${APP_PORT:-8084}:80"
       - "8443:443"
     volumes:
-      - openemr_sitevolume:/var/www/localhost/htdocs/openemr/sites
-      - openemr_logvolume01:/var/log
+      - ${APP_DATA_DIR}/data/site:/var/www/localhost/htdocs/openemr/sites
+      - ${APP_DATA_DIR}/data/logs:/var/www/localhost/htdocs/openemr/sites/default/logs
     environment:
-      MYSQL_HOST: db
-      MYSQL_ROOT_PASS: "${OPENEMR_MYSQL_ROOT_PASSWORD:-root}"
+      MYSQL_HOST: mysql
+      MYSQL_ROOT_PASS: "${MYSQL_ROOT_PASSWORD:-root}"
       MYSQL_DATABASE: openemr
       MYSQL_USER: openemr
-      MYSQL_PASS: "${OPENEMR_MYSQL_PASSWORD:-openemr}"
-      OE_USER: "${OPENEMR_ADMIN_USER:-admin}"
-      OE_PASS: "${OPENEMR_ADMIN_PASS:-pass}"
+      MYSQL_PASS: "${MYSQL_PASSWORD:-openemr}"
+      OE_USER: "${OE_USER:-admin}"
+      OE_PASS: "${OE_PASS:-pass}"
     depends_on:
-      - db
+      - mysql
     networks:
       - tipi_main_network
     labels:
       - runtipi.managed=true
-volumes:
-  openemr_databasevolume:
-  openemr_sitevolume:
-  openemr_logvolume01:
 networks:
   tipi_main_network:
     external: true
