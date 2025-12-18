@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schemas.runtipi.io/v2/dynamic-compose.json",
+  "schemaVersion": 2,
+  "services": [
+    {
+      "name": "freefilesync",
+      "image": "jlesage/freefilesync:v25.12.1",
+      "isMain": true,
+      "internalPort": 5800,
+      "environment": [
+        { 
+            "key": "USER_ID", 
+            "value": "${USER_ID:-1000}" 
+        },
+        { 
+            "key": "GROUP_ID", 
+            "value": "${GROUP_ID:-1000}" 
+        }
+      ],
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/freefilesync",
+          "containerPath": "/config",
+          "readOnly": false
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/storage",
+          "containerPath": "/storage",
+          "readOnly": false
+        }
+      ],
+      "healthCheck": {
+        "test": "curl --fail http://localhost:5800 || exit 1",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  freefilesync:
+    image: jlesage/freefilesync:v25.12.1
+    container_name: freefilesync
+    environment:
+      - USER_ID=1000
+      - GROUP_ID=1000
+    volumes:
+      - ${APP_DATA_DIR}/freefilesync:/config:rw
+      - ${APP_DATA_DIR}/storage:/storage:rw
+    ports:
+      - "5800:5800"   # web UI (browser)
+      - "5900:5900" # optional VNC
+    restart: always
+
+# Notes:
+# - Set APP_PORT and FFS_VNC_PORT in your env or when running docker-compose to avoid conflicts:
+#     APP_PORT=5860 FFS_VNC_PORT=5960 docker compose up -d
