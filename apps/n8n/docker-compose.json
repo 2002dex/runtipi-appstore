@@ -1,26 +1,18 @@
 {
   "services": [
     {
-      "name": "n8n-1",
-      "image": "n8nio/n8n:1.112.3",
+      "name": "n8n",
+      "image": "ghcr.io/n8n-io/n8n:1.123.7",
       "isMain": true,
-      "internalPort": 5678,
+      "internalPort": "5678",
       "environment": [
-        {
-          "key": "N8N_EDITOR_BASE_URL",
-          "value": "${APP_PROTOCOL:-http}://${APP_DOMAIN}"
-        },
-        {
-          "key": "N8N_SECURE_COOKIE",
-          "value": "false"
-        },
-        {
-          "key": "WEBHOOK_URL",
-          "value": "${APP_PROTOCOL:-http}://${APP_DOMAIN}"
-        },
         {
           "key": "DB_TYPE",
           "value": "postgresdb"
+        },
+        {
+          "key": "DB_POSTGRESDB_DATABASE",
+          "value": "n8n"
         },
         {
           "key": "DB_POSTGRESDB_HOST",
@@ -31,27 +23,14 @@
           "value": "5432"
         },
         {
-          "key": "DB_POSTGRESDB_DATABASE",
-          "value": "n8n"
-        },
-        {
           "key": "DB_POSTGRESDB_USER",
           "value": "n8n"
         },
         {
           "key": "DB_POSTGRESDB_PASSWORD",
-          "value": "${N8N_NR_DB_PASSWORD}"
-        },
-        {
-          "key": "N8N_DEFAULT_BINARY_DATA_MODE",
-          "value": "filesystem"
+          "value": "${N8N_DB_NON_ROOT_PASSWORD}"
         }
       ],
-      "dependsOn": {
-        "n8n-db": {
-          "condition": "service_healthy"
-        }
-      },
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/n8n",
@@ -61,19 +40,19 @@
     },
     {
       "name": "n8n-db",
-      "image": "postgres:11",
+      "image": "postgres:16",
       "environment": [
         {
+          "key": "POSTGRES_DB",
+          "value": "n8n"
+        },
+        {
           "key": "POSTGRES_USER",
-          "value": "tipi"
+          "value": "root"
         },
         {
           "key": "POSTGRES_PASSWORD",
           "value": "${N8N_DB_PASSWORD}"
-        },
-        {
-          "key": "POSTGRES_DB",
-          "value": "n8n"
         },
         {
           "key": "POSTGRES_NON_ROOT_USER",
@@ -81,12 +60,12 @@
         },
         {
           "key": "POSTGRES_NON_ROOT_PASSWORD",
-          "value": "${N8N_NR_DB_PASSWORD}"
+          "value": "${N8N_DB_NON_ROOT_PASSWORD}"
         }
       ],
       "volumes": [
         {
-          "hostPath": "${APP_DATA_DIR}/data/postgres",
+          "hostPath": "${APP_DATA_DIR}/data/db",
           "containerPath": "/var/lib/postgresql/data"
         },
         {
@@ -98,7 +77,7 @@
         "interval": "5s",
         "timeout": "5s",
         "retries": 10,
-        "test": "pg_isready -h localhost -U $$POSTGRES_USER -d $$POSTGRES_DB"
+        "test": "pg_isready -h localhost -U $${POSTGRES_USER} -d $${POSTGRES_DB}"
       }
     }
   ],
