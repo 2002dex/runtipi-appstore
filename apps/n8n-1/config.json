@@ -1,10 +1,10 @@
 {
   "name": "n8n",
-  "id": "n8n",
+  "id": "n8n-1",
   "available": true,
   "short_desc": "Fair-code workflow automation platform.",
   "author": "n8n-io",
-  "port": 8579,
+  "port": 8215,
   "categories": [
     "automation"
   ],
