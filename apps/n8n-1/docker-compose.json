@@ -2,10 +2,22 @@
   "services": [
     {
       "name": "n8n-1",
-      "image": "ghcr.io/n8n-io/n8n:1.123.7",
+      "image": "ghcr.io/n8n-io/n8n:1.120.4",
       "isMain": true,
       "internalPort": "5678",
       "environment": [
+        {
+          "key": "N8N_EDITOR_BASE_URL",
+          "value": "${APP_PROTOCOL:-http}://${APP_DOMAIN}"
+        },
+        {
+          "key": "N8N_SECURE_COOKIE",
+          "value": "false"
+        },
+        {
+          "key": "WEBHOOK_URL",
+          "value": "${APP_PROTOCOL:-http}://${APP_DOMAIN}"
+        },
         {
           "key": "DB_TYPE",
           "value": "postgresdb"
@@ -29,8 +41,37 @@
         {
           "key": "DB_POSTGRESDB_PASSWORD",
           "value": "${N8N_DB_NON_ROOT_PASSWORD}"
+        },
+        {
+          "key": "N8N_DEFAULT_BINARY_DATA_MODE",
+          "value": "filesystem"
+        },
+        {
+          "key": "N8N_PROXY_HOPS",
+          "value": "1"
+        },
+        {
+          "key": "N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS",
+          "value": "true"
+        },
+        {
+          "key": "N8N_RUNNERS_ENABLED",
+          "value": "true"
+        },
+        {
+          "key": "N8N_BLOCK_ENV_ACCESS_IN_NODE",
+          "value": "false"
+        },
+        {
+          "key": "N8N_GIT_NODE_DISABLE_BARE_REPOS",
+          "value": "true"
         }
       ],
+      "dependsOn": {
+        "n8n-db": {
+          "condition": "service_healthy"
+        }
+      },
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/n8n",
