@@ -9,6 +9,7 @@ services:
     volumes:
       - ${APP_DATA_DIR}/freefilesync:/config:rw
       - ${APP_DATA_DIR}/storage:/storage:rw
+      - /mnt/storage/smritimegh/app-data/migrated/nextcloud/data/nextcloud/data:/nc-storage:rw
     ports:
       - "5800:5800"   # web UI (browser)
       - "5900:5900" # optional VNC

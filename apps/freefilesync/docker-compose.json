@@ -27,6 +27,11 @@
           "hostPath": "${APP_DATA_DIR}/storage",
           "containerPath": "/storage",
           "readOnly": false
+        },
+        {
+          "hostPath": "/mnt/storage/smritimegh/app-data/migrated/nextcloud/data/nextcloud/data",
+          "containerPath": "/nc-storage",
+          "readOnly": false
         }
       ],
       "healthCheck": {
