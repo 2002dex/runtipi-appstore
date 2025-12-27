@@ -4,7 +4,7 @@
   "services": [
     {
       "name": "onlyoffice",
-      "image": "onlyoffice/documentserver-ee:9.2.0.1",
+      "image": "onlyoffice/documentserver:9.2.0.1",
       "isMain": true,
       "internalPort": 80,
       "addPorts": [

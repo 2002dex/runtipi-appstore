@@ -3,7 +3,7 @@
   "id": "onlyoffice",
   "available": true,
   "port": 9980,
-  "name": "ONLYOFFICE Docs (Enterprise)",
+  "name": "ONLYOFFICE Docs",
   "version": "9.2.0.1",
   "tipi_version": 1,
   "min_tipi_version": "4.5.0",
