@@ -51,7 +51,9 @@
         },
         {
           "hostPath": "/mnt/usb-temp-nextcloud",
-          "containerPath": "/external"
+          "containerPath": "/usb",
+          "readOnly": false,
+          "createHostPathIfNotExists": true
         }
       ]
     },
