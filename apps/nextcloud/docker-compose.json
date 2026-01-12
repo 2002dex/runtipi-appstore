@@ -50,10 +50,13 @@
           "containerPath": "/var/www/html"
         },
         {
+          "type": "bind",
           "hostPath": "/mnt/usb-temp-nextcloud",
           "containerPath": "/usb",
-          "readOnly": false,
-          "createHostPathIfNotExists": true
+          "bind": {
+            "propagation": "rshared"
+          },
+          "readOnly": false
         }
       ]
     },
