@@ -54,7 +54,7 @@
           "hostPath": "/mnt/usb-temp-nextcloud",
           "containerPath": "/usb",
           "bind": {
-            "propagation": "rshared"
+            "propagation": "rslave"
           },
           "readOnly": false
         }

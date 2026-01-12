@@ -13,7 +13,7 @@ services:
         source: /mnt/usb-temp-nextcloud
         target: /usb
         bind:
-          propagation: rshared
+          propagation: rslave
     environment:
       - POSTGRES_HOST=db-nextcloud
       - REDIS_HOST=redis-nextcloud
