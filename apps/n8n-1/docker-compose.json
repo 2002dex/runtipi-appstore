@@ -73,6 +73,18 @@
         {
           "key": "GENERIC_TIMEZONE",
           "value": "Asia/Kolkata"
+        },
+        {
+          "key": "N8N_TRUST_PROXY",
+          "value": "true"
+        },
+        {
+          "key": "N8N_DEFAULT_CORS",
+          "value": "true"
+        },
+        {
+          "key": "N8N_CORS_ALLOW_ORIGIN",
+          "value": "${APP_PROTOCOL}://${APP_DOMAIN}"
         }
       ],
       "dependsOn": {

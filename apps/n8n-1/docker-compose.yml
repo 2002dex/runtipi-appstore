@@ -1,7 +1,7 @@
 services:
   n8n:
     container_name: n8n
-    image: n8nio/n8n:2.1.4
+    image: n8nio/n8n:2.4.3
     restart: unless-stopped
     ports:
       - ${APP_PORT}:5678
@@ -23,6 +23,9 @@ services:
       - DB_POSTGRESDB_USER=n8n
       - DB_POSTGRESDB_PASSWORD=${N8N_NR_DB_PASSWORD}
       - N8N_DEFAULT_BINARY_DATA_MODE=filesystem
+      - N8N_TRUST_PROXY=true
+      - N8N_DEFAULT_CORS=true
+      - N8N_CORS_ALLOW_ORIGIN=${APP_PROTOCOL}://${APP_DOMAIN}
     networks:
       - tipi_main_network
     links:
@@ -34,6 +37,9 @@ services:
         condition: service_healthy
     labels:
       traefik.enable: true
+      traefik.docker.network: tipi_main_network
+      traefik.http.routers.n8n.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.n8n.tls: true
       traefik.http.middlewares.n8n-web-redirect.redirectscheme.scheme: https
       traefik.http.services.n8n.loadbalancer.server.port: 5678
       traefik.http.routers.n8n-insecure.rule: Host(`${APP_DOMAIN}`)
