@@ -2,7 +2,7 @@
   "services": [
     {
       "name": "n8n",
-      "image": "n8nio/n8n:2.1.4",
+      "image": "n8nio/n8n:2.4.3",
       "isMain": true,
       "internalPort": 5678,
       "environment": [
@@ -17,6 +17,22 @@
         {
           "key": "WEBHOOK_URL",
           "value": "${APP_PROTOCOL:-http}://${APP_DOMAIN}"
+        },
+        {
+          "key": "VUE_APP_URL_BASE_API",
+          "value": "${APP_PROTOCOL:-http}://${APP_DOMAIN}"
+        },
+        {
+          "key": "N8N_HOST",
+          "value": "${APP_DOMAIN}"
+        },
+        {
+          "key": "N8N_PROTOCOL",
+          "value": "${APP_PROTOCOL:-https}"
+        },
+        {
+          "key": "N8N_PORT",
+          "value": "5678"
         },
         {
           "key": "DB_TYPE",
@@ -45,6 +61,18 @@
         {
           "key": "N8N_DEFAULT_BINARY_DATA_MODE",
           "value": "filesystem"
+        },
+        {
+          "key": "N8N_PROXY_HOPS",
+          "value": "1"
+        },
+        {
+          "key": "N8N_PUSH_BACKEND",
+          "value": "sse"
+        },
+        {
+          "key": "GENERIC_TIMEZONE",
+          "value": "Asia/Kolkata"
         }
       ],
       "dependsOn": {

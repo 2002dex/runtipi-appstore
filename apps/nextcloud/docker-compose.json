@@ -103,10 +103,6 @@
         {
           "hostPath": "${APP_DATA_DIR}/data/nextcloud",
           "containerPath": "/var/www/html"
-        },
-        {
-          "hostPath": "/mnt/usb-temp-nextcloud",
-          "containerPath": "/external"
         }
       ],
       "entrypoint": "/cron.sh"

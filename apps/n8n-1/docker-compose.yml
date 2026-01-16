@@ -11,6 +11,11 @@ services:
       - N8N_EDITOR_BASE_URL=${APP_PROTOCOL:-http}://${APP_DOMAIN}
       - N8N_SECURE_COOKIE=false
       - WEBHOOK_URL=${APP_PROTOCOL:-http}://${APP_DOMAIN}
+      - VUE_APP_URL_BASE_API=${APP_PROTOCOL:-http}://${APP_DOMAIN}
+      - GENERIC_TIMEZONE=Asia/Kolkata
+      - N8N_HOST=${APP_DOMAIN}
+      - N8N_PROTOCOL=${APP_PROTOCOL:-https}
+      - N8N_PORT=5678
       - DB_TYPE=postgresdb
       - DB_POSTGRESDB_HOST=n8n-db
       - DB_POSTGRESDB_PORT=5432
