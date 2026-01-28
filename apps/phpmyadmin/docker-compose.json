@@ -5,6 +5,7 @@
     {
       "name": "db",
       "image": "mysql:8.0",
+      "platform": "linux/arm64",
       "environment": [
         {
           "key": "MYSQL_ROOT_PASSWORD",
@@ -46,6 +47,7 @@
     {
       "name": "phpmyadmin",
       "image": "phpmyadmin/phpmyadmin:5.2.3",
+      "platform": "linux/arm64",
       "isMain": true,
       "internalPort": 80,
       "environment": [
