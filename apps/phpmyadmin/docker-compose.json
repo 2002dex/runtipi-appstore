@@ -1,37 +1,37 @@
 {
   "schemaVersion": 2,
+  "$schema": "https://schemas.runtipi.io/v2/dynamic-compose.json",
   "services": [
     {
       "name": "db",
       "image": "mysql:8.0",
       "environment": [
-        { 
-            "key": "MYSQL_ROOT_PASSWORD",
-            "value": "${MYSQL_ROOT_PASSWORD}" 
+        {
+          "key": "MYSQL_ROOT_PASSWORD",
+          "value": "${MYSQL_ROOT_PASSWORD}"
         },
-        { 
-            "key": "MYSQL_DATABASE",
-            "value": "${MYSQL_DATABASE}" 
+        {
+          "key": "MYSQL_DATABASE",
+          "value": "${MYSQL_DATABASE}"
         },
-        { 
-            "key": "MYSQL_USER",
-            "value": "${MYSQL_USER}" 
+        {
+          "key": "MYSQL_USER",
+          "value": "${MYSQL_USER}"
         },
-        { 
-            "key": "MYSQL_PASSWORD",
-            "value": "${MYSQL_PASSWORD}" 
+        {
+          "key": "MYSQL_PASSWORD",
+          "value": "${MYSQL_PASSWORD}"
         }
       ],
       "volumes": [
         {
-          "hostPath": "./data/mysql",
+          "hostPath": "${APP_DATA_DIR}/data/mysql",
           "containerPath": "/var/lib/mysql"
         }
       ],
       "deploy": {
         "resources": {
-          "limits": { "memory": "512M" },
-          "reservations": { "memory": "256M" }
+          "limits": { "memory": "512M" }
         }
       },
       "healthCheck": {
@@ -48,30 +48,29 @@
       "isMain": true,
       "internalPort": 80,
       "environment": [
-        { 
-            "key": "PMA_HOST", 
-            "value": "db" 
+        {
+          "key": "PMA_HOST",
+          "value": "db"
         },
-        { 
-            "key": "PMA_PORT", 
-            "value": "3306" 
+        {
+          "key": "PMA_PORT",
+          "value": "3306"
         },
-        { 
-            "key": "PMA_ARBITRARY", 
-            "value": "1" 
+        {
+          "key": "PMA_ARBITRARY",
+          "value": "1"
         }
       ],
       "dependsOn": ["db"],
       "volumes": [
         {
-          "hostPath": "./data/phpmyadmin",
+          "hostPath": "${APP_DATA_DIR}/data/phpmyadmin",
           "containerPath": "/sessions"
         }
       ],
       "deploy": {
         "resources": {
-          "limits": { "memory": "256M" },
-          "reservations": { "memory": "128M" }
+          "limits": { "memory": "256M" }
         }
       }
     }

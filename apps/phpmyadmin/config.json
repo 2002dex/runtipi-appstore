@@ -6,20 +6,21 @@
   "short_desc": "phpMyAdmin web UI with a bundled MySQL server",
   "author": "phpmyadmin",
   "port": 8282,
-  "categories": ["data","development"],
+  "categories": ["data"],
   "description": "phpMyAdmin web interface to manage a MySQL database. This app deploys a MySQL server and a phpMyAdmin container. Smritimegh will prompt for database credentials during install.",
   "tipi_version": 1,
   "version": "1.0.0",
   "source": "https://github.com/phpmyadmin/docker",
   "exposable": true,
   "dynamic_config": true,
-  "supported_architectures": ["amd64","arm64"],
+  "supported_architectures": ["amd64", "arm64"],
   "form_fields": [
     {
       "type": "password",
       "label": "MySQL root password",
       "required": true,
       "env_variable": "MYSQL_ROOT_PASSWORD",
+      "default": "tipi1234",
       "min": 8,
       "max": 128
     },
@@ -42,14 +43,8 @@
       "label": "Database user password",
       "required": true,
       "env_variable": "MYSQL_PASSWORD",
+      "default": "tipi1234",
       "min": 8
-    },
-    {
-      "type": "number",
-      "label": "App port (host)",
-      "required": true,
-      "env_variable": "APP_PORT",
-      "default": 8282
     }
   ]
 }
