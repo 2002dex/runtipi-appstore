@@ -39,6 +39,7 @@
         "retries": 10,
         "interval": "5s",
         "timeout": "5s",
+        "startPeriod": "10s",
         "startInterval": "10s"
       }
     },
