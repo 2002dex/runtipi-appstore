@@ -113,7 +113,6 @@
     {
       "name": "onlyoffice",
       "image": "onlyoffice/documentserver:9.2.0.1",
-      "isMain": true,
       "internalPort": 80,
       "addPorts": [
         {
