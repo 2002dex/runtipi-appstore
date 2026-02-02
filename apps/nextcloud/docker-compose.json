@@ -43,7 +43,7 @@
           "value": "172.16.0.0/12"
         }
       ],
-      "dependsOn": ["db-nextcloud", "redis-nextcloud"],
+      "dependsOn": ["db-nextcloud", "redis-nextcloud", "onlyoffice"],
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/nextcloud",
@@ -58,6 +58,9 @@
           },
           "readOnly": false
         }
+      ],
+      "extraHosts": [
+        "onlyoffice:172.17.0.1"
       ]
     },
     {
@@ -106,6 +109,50 @@
         }
       ],
       "entrypoint": "/cron.sh"
+    },
+    {
+      "name": "onlyoffice",
+      "image": "onlyoffice/documentserver:9.2.0.1",
+      "isMain": true,
+      "internalPort": 80,
+      "addPorts": [
+        {
+          "containerPort": 80,
+          "hostPort": 9980,
+          "tcp": true
+        }
+      ],
+      "environment": [
+        { 
+          "key": "JWT_ENABLED",
+          "value": "false" 
+        },
+        { 
+          "key": "TZ", 
+          "value": "Asia/Kolkata" 
+        },
+        { 
+          "key": "ONLYOFFICE_DOMAIN", 
+          "value": "${APP_DOMAIN}" 
+        }
+      ],
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/onlyoffice/documentserver/data",
+          "containerPath": "/var/www/onlyoffice/Data"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/onlyoffice/documentserver/logs",
+          "containerPath": "/var/log/onlyoffice"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/onlyoffice/documentserver/lib",
+          "containerPath": "/var/lib/onlyoffice"
+        }
+      ],
+      "extraHosts": [
+        "nextcloud:172.17.0.1"
+      ]
     }
   ],
   "schemaVersion": 2,
