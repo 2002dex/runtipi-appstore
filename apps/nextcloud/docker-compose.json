@@ -121,11 +121,19 @@
       "environment": [
         { 
           "key": "JWT_ENABLED",
-          "value": "false" 
+          "value": "true" 
+        },
+        { 
+          "key": "JWT_SECRET", 
+          "value": "iBFcoalGWCj30UW2BzLnShsRsRF7zcnJ" 
         },
         { 
           "key": "TZ", 
           "value": "Asia/Kolkata" 
+        },
+        { 
+          "key": "ONLYOFFICE_DOMAIN", 
+          "value": "${APP_DOMAIN}" 
         }
       ],
       "volumes": [
