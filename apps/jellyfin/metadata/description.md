@@ -6,7 +6,7 @@ For further details, please see [our documentation page](https://docs.jellyfin.o
 
 ## Folder Info
 
-| Root Folder                            | Container Folder |
-|----------------------------------------|------------------|
-| /runtipi/app-data/jellyfin/data/config | /config          |
-| /runtipi/media/data                    | /media/data      |
+| Root Folder                               | Container Folder |
+|-------------------------------------------|------------------|
+| /smritimegh/app-data/jellyfin/data/config | /config          |
+| /smritimegh/media/data                    | /media/data      |

@@ -6,8 +6,8 @@ Use any compatible device to watch movies, listen to music, and view pictures st
 
 ## Folder Info
 
-| Root Folder                           | Container Folder |
-|---------------------------------------|------------------|
-| /runtipi/app-data/plex/data/config    | /config          |
-| /runtipi/app-data/plex/data/transcode | /transcode       |
-| /runtipi/media/data                   | /media           |
+| Root Folder                              | Container Folder |
+|------------------------------------------|------------------|
+| /smritimegh/app-data/plex/data/config    | /config          |
+| /smritimegh/app-data/plex/data/transcode | /transcode       |
+| /smritimegh/media/data                   | /media           |

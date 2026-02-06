@@ -20,5 +20,5 @@ services:
     networks: !reset []
     network_mode: host
 ```
-⚠️ This will bypass port/domain access defined in Runtipi, you will then need to access Home Assistant through port **8123** instead.
+⚠️ This will bypass port/domain access defined in Smritimegh, you will then need to access Home Assistant through port **8123** instead.
 
