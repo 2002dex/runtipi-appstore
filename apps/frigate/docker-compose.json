@@ -63,10 +63,8 @@
           "containerPath": "/media/frigate"
         },
         {
-          "hostPath": "${APP_DATA_DIR}/data/cache",
-          "type": "tmpfs",
-          "containerPath": "/tmp/cache",
-          "tmpfs": { "size": 1000000000 }
+          "hostPath": "/mnt/frigate_cache",
+          "containerPath": "/tmp/cache"
         }
       ]
     }
