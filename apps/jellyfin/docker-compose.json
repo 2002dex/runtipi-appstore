@@ -23,6 +23,12 @@
           "value": "${APP_PROTOCOL:-http}://${APP_DOMAIN}/"
         }
       ],
+      "devices": [
+        "/dev/mali0:/dev/mali0",
+        "/dev/rga:/dev/rga",
+        "/dev/mpp_service:/dev/mpp_service",
+        "/dev/dri:/dev/dri"
+      ],
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/config",

@@ -1,6 +1,6 @@
 ## Installation Notes ##
 
-To enable OAUTH integrations you will need to enable the "expose app" option and configure a URL in Tipi. This setting can be changed at a later date if an integration is identified that needs it.
+To enable OAUTH integrations you will need to enable the "expose app" option and configure a URL in Smritimegh. This setting can be changed at a later date if an integration is identified that needs it.
 
 ## Easily automate tasks across different services. 
 

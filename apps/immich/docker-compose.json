@@ -2,7 +2,7 @@
   "services": [
     {
       "name": "immich",
-      "image": "ghcr.io/immich-app/immich-server:v2.5.3",
+      "image": "ghcr.io/immich-app/immich-server:v2.5.6",
       "isMain": true,
       "internalPort": 2283,
       "environment": [
@@ -39,6 +39,18 @@
           "value": "${JWT_SECRET}"
         }
       ],
+      "devices": [
+        "/dev/mali0:/dev/mali0",
+        "/dev/rga:/dev/rga",
+        "/dev/mpp_service:/dev/mpp_service",
+        "/dev/dri/renderD128:/dev/dri/renderD128"
+      ],
+      "extends": [
+        {
+          "file": "hwaccel.transcoding.yml",
+          "service": "rkmpp"
+        }
+      ],
       "dependsOn": ["immich-redis", "immich-db"],
       "volumes": [
         {
@@ -49,7 +61,7 @@
     },
     {
       "name": "immich-machine-learning",
-      "image": "ghcr.io/immich-app/immich-machine-learning:v2.5.3",
+      "image": "ghcr.io/immich-app/immich-machine-learning:v2.5.6-armnn",
       "environment": [
         {
           "key": "NODE_ENV",

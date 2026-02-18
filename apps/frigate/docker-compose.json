@@ -4,7 +4,7 @@
   "services": [
     {
       "name": "frigate",
-      "image": "ghcr.io/blakeblackshear/frigate:0.16.1-rk",
+      "image": "ghcr.io/blakeblackshear/frigate:0.16.4-rk",
       "isMain": true,
       "internalPort": 8971,
       "networkMode": "host",
