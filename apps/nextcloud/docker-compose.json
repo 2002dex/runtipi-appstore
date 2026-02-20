@@ -36,11 +36,15 @@
         },
         {
           "key": "NEXTCLOUD_TRUSTED_DOMAINS",
-          "value": "${APP_DOMAIN}"
+          "value": "${APP_DOMAIN} ${INTERNAL_IP} ${LOCAL_DOMAIN}"
         },
         {
           "key": "TRUSTED_PROXIES",
           "value": "172.16.0.0/12"
+        },
+        {
+          "key": "OVERWRITECONDADDR",
+          "value": "^172\\.16\\."
         },
         {
           "key": "OVERWRITEPROTOCOL",

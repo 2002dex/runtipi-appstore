@@ -14,11 +14,18 @@
         },
         {
           "hostPath": "${APP_DATA_DIR}/data/localtime",
-          "containerPath": "/etc/localtime"
+          "containerPath": "/etc/localtime",
+          "readOnly": true
         },
         {
           "hostPath": "/run/dbus",
           "containerPath": "/run/dbus"
+        }
+      ],
+      "environment": [
+        {
+          "key": "TZ",
+          "value": "${TZ}"
         }
       ],
       "restart": "unless-stopped",
