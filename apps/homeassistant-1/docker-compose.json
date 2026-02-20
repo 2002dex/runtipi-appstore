@@ -1,29 +1,40 @@
 {
+  "schemaVersion": 2,
+  "$schema": "https://schemas.runtipi.io/dynamic-compose.json",
   "services": [
     {
-      "name": "homeassistant-1",
-      "image": "ghcr.io/home-assistant/home-assistant:2026.2.0",
-      "isMain": true,
+      "name": "homeassistant",
+      "image": "ghcr.io/home-assistant/home-assistant:2026.2.2",
       "internalPort": 8123,
-      "environment": [
-        {
-          "key": "TZ",
-          "value": "${TZ}"
-        }
-      ],
+      "isMain": true,
       "volumes": [
-        {
-          "hostPath": "/etc/localtime",
-          "containerPath": "/etc/localtime",
-          "readOnly": true
-        },
         {
           "hostPath": "${APP_DATA_DIR}/data/config",
           "containerPath": "/config"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/localtime",
+          "containerPath": "/etc/localtime"
+        },
+        {
+          "hostPath": "/run/dbus",
+          "containerPath": "/run/dbus"
         }
-      ]
+      ],
+      "restart": "unless-stopped",
+      "depends_on": ["matter-server"]
+    },
+    {
+      "name": "matter-server",
+      "image": "ghcr.io/home-assistant-libs/python-matter-server:stable",
+      "networkMode": "host",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/matter",
+          "containerPath": "/data"
+        }
+      ],
+      "restart": "unless-stopped"
     }
-  ],
-  "schemaVersion": 2,
-  "$schema": "https://schemas.runtipi.io/v2/dynamic-compose.json"
+  ]
 }

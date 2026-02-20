@@ -1,10 +1,10 @@
 {
+  "schemaVersion": 2,
+  "$schema": "https://schemas.runtipi.io/dynamic-compose.json",
   "services": [
     {
       "name": "nextcloud",
-      "image": "nextcloud:32-apache",
-      "isMain": true,
-      "internalPort": 80,
+      "image": "nextcloud:32.0.6-apache",
       "environment": [
         {
           "key": "POSTGRES_HOST",
@@ -36,14 +36,26 @@
         },
         {
           "key": "NEXTCLOUD_TRUSTED_DOMAINS",
-          "value": "${APP_DOMAIN} ${INTERNAL_IP} ${LOCAL_DOMAIN}"
+          "value": "${APP_DOMAIN}"
         },
         {
           "key": "TRUSTED_PROXIES",
           "value": "172.16.0.0/12"
+        },
+        {
+          "key": "OVERWRITEPROTOCOL",
+          "value": "${APP_PROTOCOL}"
+        },
+        {
+          "key": "PHP_MEMORY_LIMIT",
+          "value": "${PHP_MEMORY_LIMIT}"
+        },
+        {
+          "key": "PHP_UPLOAD_LIMIT",
+          "value": "${PHP_UPLOAD_LIMIT}"
         }
       ],
-      "dependsOn": ["db-nextcloud", "redis-nextcloud"],
+      "internalPort": 80,
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/nextcloud",
@@ -58,11 +70,13 @@
           },
           "readOnly": false
         }
-      ]
+      ],
+      "dependsOn": ["db-nextcloud", "redis-nextcloud"],
+      "isMain": true
     },
     {
       "name": "db-nextcloud",
-      "image": "postgres:14.2",
+      "image": "postgres:17",
       "environment": [
         {
           "key": "POSTGRES_PASSWORD",
@@ -97,17 +111,15 @@
     },
     {
       "name": "cron",
-      "image": "nextcloud:25.0.13-apache",
+      "image": "nextcloud:32.0.6-apache",
+      "entrypoint": "/cron.sh",
       "dependsOn": ["db-nextcloud", "redis-nextcloud"],
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/nextcloud",
           "containerPath": "/var/www/html"
         }
-      ],
-      "entrypoint": "/cron.sh"
+      ]
     }
-  ],
-  "schemaVersion": 2,
-  "$schema": "https://schemas.runtipi.io/v2/dynamic-compose.json"
+  ]
 }
