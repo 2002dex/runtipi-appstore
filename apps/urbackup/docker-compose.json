@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 2,
+  "$schema": "https://schemas.runtipi.io/dynamic-compose.json",
+  "services": [
+    {
+      "name": "urbackup",
+      "image": "uroni/urbackup-server:latest",
+      "isMain": true,
+      "internalPort": 55414,
+      "environment": [
+        {
+          "key": "P_UID",
+          "value": "0"
+        },
+        {
+          "key": "P_GID",
+          "value": "0"
+        },
+        {
+          "key": "TZ",
+          "value": "Asia/Kolkata"
+        },
+        {
+          "key": "ZFS_IMAGE",
+          "value": "mypool/urbackup"
+        },
+        {
+          "key": "ZFS_FILES",
+          "value": "mypool/urbackup"
+        }
+      ],
+      "devices": [
+        "/dev/zfs:/dev/zfs"
+      ],
+      "addPorts": [
+        {
+          "containerPort": 55413,
+          "hostPort": 55413,
+          "tcp": true
+        },
+        {
+          "containerPort": 55415,
+          "hostPort": 55415,
+          "tcp": true
+        },
+        {
+          "containerPort": 35623,
+          "hostPort": 35623,
+          "upd": true
+        }
+      ],
+      "volumes": [
+        {
+          "type": "bind",
+          "host": "/mnt/urbackup",
+          "container": "/backups",
+          "bind":{
+            "propagation": "shared"
+          }
+        },
+        {
+            "host": "${APP_DATA_DIR}/data",
+            "container": "/var/urbackup"
+        }
+      ]
+    }
+  ]
+} 

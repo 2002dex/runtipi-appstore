@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  urbackup:
+    image: uroni/urbackup-server:latest
+    container_name: urbackup
+    restart: unless-stopped
+    privileged: true       # Required for the container to interface with the ZFS kernel
+    user: "0:0"            # Forces UrBackup to run as root to execute ZFS snapshots without permission drops
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Asia/Kolkata    # Synchronized with your local time
+      - ZFS_IMAGE=mypool/urbackup
+      - ZFS_FILES=mypool/urbackup
+    devices:
+      - /dev/zfs:/dev/zfs  # Passes the host ZFS block device to the container
+    ports:
+      # We map the client data/discovery ports manually. 
+      # (Port 55414 is omitted here because Runtipi proxy handles the Web UI automatically)
+      - "55413:55413/tcp"
+      - "55415:55415/tcp"
+      - "35623:35623/udp"
+    volumes:
+      # Critical: The ':shared' flag ensures that when ZFS mounts a new client dataset 
+      # on the host, the container's /backups directory immediately inherits the mount.
+      - /mnt/urbackup:/backups:shared
+      
+      # Maps the database to Runtipi's standard app data structure
+      - ${APP_DATA_DIR}/data:/var/urbackup

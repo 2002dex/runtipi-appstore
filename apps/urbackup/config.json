@@ -1,0 +1,19 @@
+{
+  "$schema": "../app-info-schema.json",
+  "name": "UrBackup",
+  "available": true,
+  "exposable": true,
+  "dynamic_config": true,
+  "port": 55414,
+  "id": "urbackup",
+  "tipi_version": 1,
+  "version": "2.5.36",
+  "categories": ["data", "security"],
+  "description": "UrBackup is a client/server network backup system that automates both file and disk image backups to provide fast, reliable data protection and bare-metal restoration.",
+  "short_desc": "Efficient, automated network backup and recovery solution",
+  "author": "Martin Raiber",
+  "website": "https://www.urbackup.org/index.html/",
+  "source": "https://github.com/uroni/urbackup_backend",
+  "supported_architectures": ["arm64", "amd64"],
+  "min_tipi_version": "4.5.0"
+}
