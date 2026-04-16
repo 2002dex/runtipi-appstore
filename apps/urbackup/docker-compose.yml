@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   urbackup:
-    image: uroni/urbackup-server:2.5.36
+    image: uroni/urbackup-server:latest
     container_name: urbackup
     restart: unless-stopped
     privileged: true       # Required for the container to interface with the ZFS kernel

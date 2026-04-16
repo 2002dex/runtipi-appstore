@@ -4,7 +4,7 @@
   "services": [
     {
       "name": "urbackup",
-      "image": "uroni/urbackup-server:2.5.36",
+      "image": "uroni/urbackup-server:latest",
       "isMain": true,
       "internalPort": 55414,
       "environment": [
