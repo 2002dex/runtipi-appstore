@@ -9,11 +9,11 @@
       "internalPort": 55414,
       "environment": [
         {
-          "key": "P_UID",
+          "key": "PUID",
           "value": "0"
         },
         {
-          "key": "P_GID",
+          "key": "PGID",
           "value": "0"
         },
         {
@@ -22,11 +22,11 @@
         },
         {
           "key": "ZFS_IMAGE",
-          "value": "mypool/urbackup"
+          "value": "mypool/urbackup/images"
         },
         {
           "key": "ZFS_FILES",
-          "value": "mypool/urbackup"
+          "value": "mypool/urbackup/files"
         }
       ],
       "devices": [
@@ -52,15 +52,16 @@
       "volumes": [
         {
           "type": "bind",
-          "host": "/mnt/urbackup",
-          "container": "/backups",
+          "hostPath": "/mnt/urbackup",
+          "containerPath": "/backups",
           "bind":{
             "propagation": "shared"
-          }
+          },
+          "readOnly": false
         },
         {
-            "host": "${APP_DATA_DIR}/data",
-            "container": "/var/urbackup"
+            "hostPath": "${APP_DATA_DIR}/data",
+            "containerPath": "/var/urbackup"
         }
       ]
     }
