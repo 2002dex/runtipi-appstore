@@ -4,7 +4,7 @@
   "services": [
     {
       "name": "urbackup",
-      "image": "uroni/urbackup-server:latest",
+      "image": "uroni/urbackup-server:2.5.36",
       "isMain": true,
       "internalPort": 55414,
       "environment": [
@@ -22,11 +22,11 @@
         },
         {
           "key": "ZFS_IMAGE",
-          "value": "mypool/urbackup/images"
+          "value": "mnt/urbackup/images"
         },
         {
           "key": "ZFS_FILES",
-          "value": "mypool/urbackup/files"
+          "value": "mnt/urbackup/files"
         }
       ],
       "devices": [

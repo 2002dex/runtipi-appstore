@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   urbackup:
-    image: uroni/urbackup-server:latest
+    image: uroni/urbackup-server:2.5.36
     container_name: urbackup
     restart: unless-stopped
     privileged: true       # Required for the container to interface with the ZFS kernel
@@ -11,8 +11,8 @@ services:
       - PUID=0
       - PGID=0
       - TZ=Asia/Kolkata    # Synchronized with your local time
-      - ZFS_IMAGE=mypool/urbackup
-      - ZFS_FILES=mypool/urbackup
+      - ZFS_IMAGE=mnt/urbackup/images
+      - ZFS_FILES=mnt/urbackup/files
     devices:
       - /dev/zfs:/dev/zfs  # Passes the host ZFS block device to the container
     ports:
