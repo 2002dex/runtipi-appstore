@@ -22,11 +22,11 @@
         },
         {
           "key": "ZFS_IMAGE",
-          "value": "mnt/urbackup/images"
+          "value": "/mnt/urbackup/images"
         },
         {
           "key": "ZFS_FILES",
-          "value": "mnt/urbackup/files"
+          "value": "/mnt/urbackup/files"
         }
       ],
       "devices": [

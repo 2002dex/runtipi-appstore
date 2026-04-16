@@ -11,8 +11,8 @@ services:
       - PUID=0
       - PGID=0
       - TZ=Asia/Kolkata    # Synchronized with your local time
-      - ZFS_IMAGE=mnt/urbackup/images
-      - ZFS_FILES=mnt/urbackup/files
+      - ZFS_IMAGE=/mnt/urbackup/images
+      - ZFS_FILES=/mnt/urbackup/files
     devices:
       - /dev/zfs:/dev/zfs  # Passes the host ZFS block device to the container
     ports:
