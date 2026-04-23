@@ -1,30 +1,42 @@
 version: '3.7'
-
 services:
   urbackup:
     image: uroni/urbackup-server:latest
     container_name: urbackup
+    privileged: true
     restart: unless-stopped
-    privileged: true       # Required for the container to interface with the ZFS kernel
-    user: "0:0"            # Forces UrBackup to run as root to execute ZFS snapshots without permission drops
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        # 1. Enable the 'contrib' repository for Debian to access ZFS packages
+        if [ -f /etc/apt/sources.list.d/debian.sources ]; then
+          sed -i 's/Components: main/Components: main contrib/g' /etc/apt/sources.list.d/debian.sources
+        else
+          echo "deb http://deb.debian.org/debian trixie contrib" >> /etc/apt/sources.list
+        fi
+        
+        # 2. Update and install ZFS utilities and guestmount (to fix the image mount error)
+        apt-get update && apt-get install -y zfsutils-linux libguestfs-tools
+        
+        # 3. Start UrBackup
+        /usr/bin/entrypoint.sh run
     environment:
       - PUID=0
       - PGID=0
-      - TZ=Asia/Kolkata    # Synchronized with your local time
-      - ZFS_IMAGE=/mnt/urbackup/images
-      - ZFS_FILES=/mnt/urbackup/files
-    devices:
-      - /dev/zfs:/dev/zfs  # Passes the host ZFS block device to the container
-    ports:
-      # We map the client data/discovery ports manually. 
-      # (Port 55414 is omitted here because Runtipi proxy handles the Web UI automatically)
-      - "55413:55413/tcp"
-      - "55415:55415/tcp"
-      - "35623:35623/udp"
-    volumes:
-      # Critical: The ':shared' flag ensures that when ZFS mounts a new client dataset 
-      # on the host, the container's /backups directory immediately inherits the mount.
-      - /mnt/urbackup:/backups:shared
+      - TZ=Asia/Kolkata
+      - ZFS_IMAGE=mypool/urbackup/images
+      - ZFS_FILES=mypool/urbackup/files
       
-      # Maps the database to Runtipi's standard app data structure
-      - ${APP_DATA_DIR}/data:/var/urbackup
+    volumes:
+      - /mnt/urbackup/database:/var/urbackup
+      - /mnt/urbackup/settings:/etc/urbackup
+      - /mnt/urbackup:/mnt/urbackup
+      
+    devices:
+      - /dev/zfs:/dev/zfs
+    ports:
+      - "55413:55413"
+      - "55414:55414"
+      - "55415:55415"
+      - "35623:35623/udp"

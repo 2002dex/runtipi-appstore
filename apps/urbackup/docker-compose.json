@@ -6,7 +6,14 @@
       "name": "urbackup",
       "image": "uroni/urbackup-server:latest",
       "isMain": true,
+      "privileged": true,
+      "restart": "unless-stopped",
       "internalPort": 55414,
+      "entrypoint": [
+        "/bin/sh",
+        "-c",
+        "if [ -f /etc/apt/sources.list.d/debian.sources ]; then sed -i 's/Components: main/Components: main contrib/g' /etc/apt/sources.list.d/debian.sources; else echo \"deb http://deb.debian.org/debian trixie contrib\" >> /etc/apt/sources.list; fi && apt-get update && apt-get install -y zfsutils-linux libguestfs-tools && /usr/bin/entrypoint.sh run"
+      ],
       "environment": [
         {
           "key": "PUID",
@@ -22,11 +29,11 @@
         },
         {
           "key": "ZFS_IMAGE",
-          "value": "/mnt/urbackup/images"
+          "value": "mypool/urbackup/images"
         },
         {
           "key": "ZFS_FILES",
-          "value": "/mnt/urbackup/files"
+          "value": "mypool/urbackup/files"
         }
       ],
       "devices": [
@@ -39,6 +46,11 @@
           "tcp": true
         },
         {
+          "containerPort": 55414,
+          "hostPort": 55414,
+          "tcp": true
+        },
+        {
           "containerPort": 55415,
           "hostPort": 55415,
           "tcp": true
@@ -46,22 +58,21 @@
         {
           "containerPort": 35623,
           "hostPort": 35623,
-          "upd": true
+          "udp": true
         }
       ],
       "volumes": [
         {
-          "type": "bind",
-          "hostPath": "/mnt/urbackup",
-          "containerPath": "/backups",
-          "bind":{
-            "propagation": "shared"
-          },
-          "readOnly": false
+          "hostPath": "/mnt/urbackup/database",
+          "containerPath": "/var/urbackup"
         },
         {
-            "hostPath": "${APP_DATA_DIR}/data",
-            "containerPath": "/var/urbackup"
+          "hostPath": "/mnt/urbackup/settings",
+          "containerPath": "/etc/urbackup"
+        },
+        {
+          "hostPath": "/mnt/urbackup",
+          "containerPath": "/mnt/urbackup"
         }
       ]
     }
