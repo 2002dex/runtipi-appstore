@@ -2,9 +2,9 @@
   "services": [
     {
       "name": "n8n-1",
-      "image": "n8nio/n8n:1.112.3",
+      "image": "n8nio/n8n:2.20.6",
       "isMain": true,
-      "internalPort": "5678",
+      "internalPort": 5678,
       "environment": [
         {
           "key": "N8N_EDITOR_BASE_URL",
@@ -23,16 +23,16 @@
           "value": "postgresdb"
         },
         {
-          "key": "DB_POSTGRESDB_DATABASE",
-          "value": "n8n"
-        },
-        {
           "key": "DB_POSTGRESDB_HOST",
           "value": "n8n-db"
         },
         {
           "key": "DB_POSTGRESDB_PORT",
           "value": "5432"
+        },
+        {
+          "key": "DB_POSTGRESDB_DATABASE",
+          "value": "n8n"
         },
         {
           "key": "DB_POSTGRESDB_USER",
@@ -45,26 +45,6 @@
         {
           "key": "N8N_DEFAULT_BINARY_DATA_MODE",
           "value": "filesystem"
-        },
-        {
-          "key": "N8N_PROXY_HOPS",
-          "value": "1"
-        },
-        {
-          "key": "N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS",
-          "value": "true"
-        },
-        {
-          "key": "N8N_RUNNERS_ENABLED",
-          "value": "true"
-        },
-        {
-          "key": "N8N_BLOCK_ENV_ACCESS_IN_NODE",
-          "value": "false"
-        },
-        {
-          "key": "N8N_GIT_NODE_DISABLE_BARE_REPOS",
-          "value": "true"
         }
       ],
       "dependsOn": {
@@ -84,16 +64,16 @@
       "image": "postgres:16",
       "environment": [
         {
-          "key": "POSTGRES_DB",
-          "value": "n8n"
-        },
-        {
           "key": "POSTGRES_USER",
           "value": "tipi"
         },
         {
           "key": "POSTGRES_PASSWORD",
           "value": "${N8N_DB_PASSWORD}"
+        },
+        {
+          "key": "POSTGRES_DB",
+          "value": "n8n"
         },
         {
           "key": "POSTGRES_NON_ROOT_USER",
