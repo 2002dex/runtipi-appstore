@@ -1,10 +1,10 @@
 {
   "services": [
     {
-      "name": "n8n",
-      "image": "n8nio/n8n:2.4.3",
+      "name": "n8n-1",
+      "image": "n8nio/n8n:1.112.3",
       "isMain": true,
-      "internalPort": 5678,
+      "internalPort": "5678",
       "environment": [
         {
           "key": "N8N_EDITOR_BASE_URL",
@@ -19,24 +19,12 @@
           "value": "${APP_PROTOCOL:-http}://${APP_DOMAIN}"
         },
         {
-          "key": "VUE_APP_URL_BASE_API",
-          "value": "${APP_PROTOCOL:-http}://${APP_DOMAIN}"
-        },
-        {
-          "key": "N8N_HOST",
-          "value": "${APP_DOMAIN}"
-        },
-        {
-          "key": "N8N_PROTOCOL",
-          "value": "${APP_PROTOCOL:-https}"
-        },
-        {
-          "key": "N8N_PORT",
-          "value": "5678"
-        },
-        {
           "key": "DB_TYPE",
           "value": "postgresdb"
+        },
+        {
+          "key": "DB_POSTGRESDB_DATABASE",
+          "value": "n8n"
         },
         {
           "key": "DB_POSTGRESDB_HOST",
@@ -45,10 +33,6 @@
         {
           "key": "DB_POSTGRESDB_PORT",
           "value": "5432"
-        },
-        {
-          "key": "DB_POSTGRESDB_DATABASE",
-          "value": "n8n"
         },
         {
           "key": "DB_POSTGRESDB_USER",
@@ -67,24 +51,20 @@
           "value": "1"
         },
         {
-          "key": "N8N_PUSH_BACKEND",
-          "value": "sse"
-        },
-        {
-          "key": "GENERIC_TIMEZONE",
-          "value": "Asia/Kolkata"
-        },
-        {
-          "key": "N8N_TRUST_PROXY",
+          "key": "N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS",
           "value": "true"
         },
         {
-          "key": "N8N_DEFAULT_CORS",
+          "key": "N8N_RUNNERS_ENABLED",
           "value": "true"
         },
         {
-          "key": "N8N_CORS_ALLOW_ORIGIN",
-          "value": "${APP_PROTOCOL}://${APP_DOMAIN}"
+          "key": "N8N_BLOCK_ENV_ACCESS_IN_NODE",
+          "value": "false"
+        },
+        {
+          "key": "N8N_GIT_NODE_DISABLE_BARE_REPOS",
+          "value": "true"
         }
       ],
       "dependsOn": {
@@ -101,8 +81,12 @@
     },
     {
       "name": "n8n-db",
-      "image": "postgres:18",
+      "image": "postgres:16",
       "environment": [
+        {
+          "key": "POSTGRES_DB",
+          "value": "n8n"
+        },
         {
           "key": "POSTGRES_USER",
           "value": "tipi"
@@ -110,10 +94,6 @@
         {
           "key": "POSTGRES_PASSWORD",
           "value": "${N8N_DB_PASSWORD}"
-        },
-        {
-          "key": "POSTGRES_DB",
-          "value": "n8n"
         },
         {
           "key": "POSTGRES_NON_ROOT_USER",
@@ -127,7 +107,7 @@
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/postgres",
-          "containerPath": "/var/lib/postgresql"
+          "containerPath": "/var/lib/postgresql/data"
         },
         {
           "hostPath": "${APP_DATA_DIR}/data/init-data.sh",
