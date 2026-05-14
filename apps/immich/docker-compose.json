@@ -2,7 +2,7 @@
   "services": [
     {
       "name": "immich",
-      "image": "ghcr.io/immich-app/immich-server:v2.5.6",
+      "image": "ghcr.io/immich-app/immich-server:v2.7.5",
       "isMain": true,
       "internalPort": 2283,
       "environment": [
@@ -39,29 +39,33 @@
           "value": "${JWT_SECRET}"
         }
       ],
-      "devices": [
-        "/dev/mali0:/dev/mali0",
-        "/dev/rga:/dev/rga",
-        "/dev/mpp_service:/dev/mpp_service",
-        "/dev/dri/renderD128:/dev/dri/renderD128"
-      ],
-      "extends": [
-        {
-          "file": "hwaccel.transcoding.yml",
-          "service": "rkmpp"
-        }
-      ],
       "dependsOn": ["immich-redis", "immich-db"],
       "volumes": [
         {
           "hostPath": "${ROOT_FOLDER_HOST}/media/data/images/immich",
           "containerPath": "/usr/src/app/upload"
+        },
+        {
+          "type": "bind",
+          "hostPath": "/mnt/usb-hub",
+          "containerPath": "/usb",
+          "bind": {
+            "propagation": "rslave"
+          },
+          "readOnly": false
         }
       ]
     },
     {
       "name": "immich-machine-learning",
-      "image": "ghcr.io/immich-app/immich-machine-learning:v2.5.6-armnn",
+      "image": "ghcr.io/immich-app/immich-machine-learning:v2.7.5-rknn",
+      "securityOpt": [
+        "systempaths=unconfined",
+        "apparmor=unconfined"
+      ],
+      "devices": [
+        "/dev/dri:/dev/dri"
+      ],
       "environment": [
         {
           "key": "NODE_ENV",
@@ -86,6 +90,10 @@
         {
           "key": "DB_DATABASE_NAME",
           "value": "immich"
+        },
+        {
+          "key": "MACHINE_LEARNING_RKNN_THREADS",
+          "value": "2"
         }
       ],
       "dependsOn": ["immich-db"],
@@ -97,6 +105,10 @@
         {
           "hostPath": "${APP_DATA_DIR}/data/immich-ml-cache",
           "containerPath": "/cache"
+        },
+        {
+          "hostPath": "/sys",
+          "containerPath": "/sys"
         }
       ]
     },

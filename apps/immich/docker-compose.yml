@@ -2,17 +2,10 @@ version: '3.7'
 services:
   immich:
     container_name: immich
-    image: ghcr.io/immich-app/immich-server:v2.5.6
-    extends:
-      file: hwaccel.transcoding.yml
-      service: rkmpp
-    devices:
-      - /dev/mali0:/dev/mali0
-      - /dev/rga:/dev/rga
-      - /dev/mpp_service:/dev/mpp_service
-      - /dev/dri/renderD128:/dev/dri/renderD128
+    image: ghcr.io/immich-app/immich-server:v2.7.5
     volumes:
       - ${ROOT_FOLDER_HOST}/media/data/images/immich:/usr/src/app/upload
+      - /mnt/usb-hub:/usb:rslave
     environment:
       - NODE_ENV=production
       - DB_HOSTNAME=immich-db
@@ -53,10 +46,16 @@ services:
       runtipi.managed: true
   immich-machine-learning:
     container_name: immich-machine-learning
-    image: ghcr.io/immich-app/immich-machine-learning:v2.5.6-armnn
+    image: ghcr.io/immich-app/immich-machine-learning:v2.7.5-rknn
+    security_opt:
+      - systempaths=unconfined
+      - apparmor=unconfined
+    devices:
+      - /dev/dri:/dev/dri
     volumes:
       - ${ROOT_FOLDER_HOST}/media/data/images/immich:/usr/src/app/upload
       - ${APP_DATA_DIR}/data/immich-ml-cache:/cache
+      - /sys:/sys
     environment:
       - NODE_ENV=production
       - DB_HOSTNAME=immich-db
@@ -64,6 +63,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=immich
       - DB_DATABASE_NAME=immich
+      - MACHINE_LEARNING_RKNN_THREADS=2
     depends_on:
       - immich-db
     restart: unless-stopped
