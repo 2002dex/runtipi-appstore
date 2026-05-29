@@ -5,6 +5,8 @@ services:
     restart: unless-stopped
     devices:
       - "/dev/ttyS6:/dev/ttyS6"
+    volumes:
+      - ${APP_DATA_DIR}/data/database.php:/var/www/html/vibegateway/web/application/config/database.php
     environment:
       - DB_HOST=mariadb
       - DB_USER=root
