@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "services": [
+    {
+      "name": "vibegateway",
+      "image": "dspworks/vibegateway:1.0.1",
+      "isMain": true,
+      "internalPort": 80,
+      "environment": [
+        {
+          "key": "DB_HOST",
+          "value": "${DB_HOST:-mariadb}"
+        },
+        {
+          "key": "DB_USER",
+          "value": "${DB_USER:-root}"
+        },
+        {
+          "key": "DB_PASSWORD",
+          "value": "${DB_PASSWORD:-dspworks}"
+        },
+        {
+          "key": "DB_NAME",
+          "value": "${DB_NAME:-vshgateway}"
+        }
+      ],
+      "devices": [
+        "/dev/ttyS6:/dev/ttyS6"
+      ],
+      "dependsOn": {
+        "vibegateway-mariadb": {
+          "condition": "service_healthy"
+        }
+      }
+    },
+    {
+      "name": "vibegateway-mariadb",
+      "image": "mariadb:11.4",
+      "environment": [
+        {
+          "key": "MYSQL_ROOT_PASSWORD",
+          "value": "${MYSQL_ROOT_PASSWORD:-dspworks}"
+        },
+        {
+          "key": "MYSQL_DATABASE",
+          "value": "${MYSQL_DATABASE:-vshgateway}"
+        }
+      ],
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/mariadb_data",
+          "containerPath": "/var/lib/mysql",
+          "readOnly": false,
+          "shared": false,
+          "private": false
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/vshgateway.sql",
+          "containerPath": "/docker-entrypoint-initdb.d/01-init.sql",
+          "readOnly": false,
+          "shared": false,
+          "private": false
+        }
+      ],
+      "healthCheck": {
+        "test": "CMD healthcheck.sh --connect --innodb_initialized",
+        "interval": "10s",
+        "timeout": "5s",
+        "retries": 10,
+        "startPeriod": "30s"
+      }
+    }
+  ]
+}
