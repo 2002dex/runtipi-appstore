@@ -5,28 +5,27 @@ services:
     restart: unless-stopped
     devices:
       - "/dev/ttyS6:/dev/ttyS6"
-    volumes:
-      - ${APP_DATA_DIR}/data/database.php:/var/www/html/vibegateway/web/application/config/database.php
     environment:
       - DB_HOST=mariadb
       - DB_USER=root
       - DB_PASSWORD=dspworks
       - DB_NAME=vshgateway
     depends_on:
-      vibegateway-mariadb:
+      mariadb:
         condition: service_healthy
     x-runtipi:
       is_main: true
       internal_port: 80
-  vibegateway-mariadb:
+  mariadb:
     image: mariadb:11.4
-    container_name: vibegateway-mariadb
+    container_name: mariadb
     restart: unless-stopped
     volumes:
       - ${APP_DATA_DIR}/data/mariadb_data:/var/lib/mysql
       - ${APP_DATA_DIR}/data/vshgateway.sql:/docker-entrypoint-initdb.d/01-init.sql
     environment:
       - MYSQL_ROOT_PASSWORD=dspworks
+      - MYSQL_ROOT_HOST=%
       - MYSQL_DATABASE=vshgateway
     healthcheck:
       test:
