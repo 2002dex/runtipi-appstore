@@ -30,9 +30,12 @@ services:
     healthcheck:
       test:
         - CMD
-        - healthcheck.sh
-        - "--connect"
-        - "--innodb_initialized"
+        - mariadb-admin
+        - ping
+        - -u
+        - root
+        - -p
+        - dspworks
       interval: 10s
       timeout: 5s
       retries: 10
