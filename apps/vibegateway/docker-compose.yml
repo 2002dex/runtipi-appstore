@@ -6,10 +6,10 @@ services:
     devices:
       - "/dev/ttyS6:/dev/ttyS6"
     environment:
-      - DB_HOST=${DB_HOST:-mariadb}
-      - DB_USER=${DB_USER:-root}
-      - DB_PASSWORD=${DB_PASSWORD:-dspworks}
-      - DB_NAME=${DB_NAME:-vshgateway}
+      - DB_HOST=mariadb
+      - DB_USER=root
+      - DB_PASSWORD=dspworks
+      - DB_NAME=vshgateway
     depends_on:
       vibegateway-mariadb:
         condition: service_healthy
@@ -24,8 +24,8 @@ services:
       - ${APP_DATA_DIR}/data/mariadb_data:/var/lib/mysql
       - ${APP_DATA_DIR}/data/vshgateway.sql:/docker-entrypoint-initdb.d/01-init.sql
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-dspworks}
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-vshgateway}
+      - MYSQL_ROOT_PASSWORD=dspworks
+      - MYSQL_DATABASE=vshgateway
     healthcheck:
       test:
         - CMD
