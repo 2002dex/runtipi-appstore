@@ -34,8 +34,7 @@ services:
         - ping
         - -u
         - root
-        - -p
-        - dspworks
+        - --password=dspworks
       interval: 10s
       timeout: 5s
       retries: 10

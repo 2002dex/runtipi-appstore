@@ -68,7 +68,7 @@
         }
       ],
       "healthCheck": {
-        "test": "CMD mariadb-admin ping -u root -p dspworks",
+        "test": "CMD mariadb-admin ping -u root --password=dspworks",
         "interval": "10s",
         "timeout": "5s",
         "retries": 10,
