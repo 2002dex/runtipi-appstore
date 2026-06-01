@@ -27,7 +27,7 @@ For more detailed information the [mosquitto documentation](https://mosquitto.or
 
 [Cedalo Management Center](https://github.com/cedalo/management-center) allows to easily manage, monitor and inspect instances of Eclipse Mosquitto. There are some pro features that can only be activated by getting a license from cedalo.
 
-![cedalo_mgm_center.png](https://github.com/runtipi/runtipi-appstore/blob/master/apps/eclipse-mosquitto/metadata/cedalo_mgm_center.png)
+![cedalo_mgm_center.png](cedalo_mgm_center.png)
 
 By default the following features are provided:
 
