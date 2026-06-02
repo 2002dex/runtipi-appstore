@@ -10,8 +10,10 @@ services:
       - DB_USER=root
       - DB_PASSWORD=dspworks
       - DB_NAME=vshgateway
-      - MQTT_HOST=vibegateway-mqtt
+      - MQTT_HOST=mqtt
       - MQTT_PORT=1883
+      - MQTT_USER=vibeclient_1
+      - MQTT_PASSWORD=Vib3@dsp#A$
     depends_on:
       mariadb:
         condition: service_healthy
@@ -41,9 +43,9 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
-  vibegateway-mqtt:
+  mqtt:
     image: eclipse-mosquitto:2
-    container_name: vibegateway-mqtt
+    container_name: mqtt
     ports:
       - "1883:1883"
       - "9001:9001"

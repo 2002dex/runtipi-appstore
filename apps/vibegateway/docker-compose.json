@@ -25,11 +25,19 @@
         },
         {
           "key": "MQTT_HOST",
-          "value": "vibegateway-mqtt"
+          "value": "mqtt"
         },
         {
           "key": "MQTT_PORT",
           "value": "1883"
+        },
+        {
+          "key": "MQTT_USER",
+          "value": "vibeclient_1"
+        },
+        {
+          "key": "MQTT_PASSWORD",
+          "value": "Vib3@dsp#A$"
         }
       ],
       "devices": [
@@ -84,9 +92,9 @@
       }
     },
     {
-      "name": "vibegateway-mqtt",
+      "name": "mqtt",
       "image": "eclipse-mosquitto:2",
-      "containerName": "vibegateway-mqtt",
+      "containerName": "mqtt",
       "ports": [
         {
           "hostPort": 1883,
