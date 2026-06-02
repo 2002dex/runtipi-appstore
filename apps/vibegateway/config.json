@@ -3,8 +3,7 @@
   "id": "vibegateway",
   "name": "VibeGateway",
   "description": "VibeGateway application",
-  "version": "1.0.1",
-  "image": "dspworks/vibegateway",
+  "version": "1.0.2",
   "port": 8100,
   "categories": [
     "utilities"
@@ -18,7 +17,7 @@
   "available": true,
   "exposable": true,
   "dynamic_config": true,
-  "tipi_version": 1,
+  "tipi_version": 2,
   "min_tipi_version": "4.5.0",
   "created_at": 1779965242759,
   "updated_at": 1779965242759

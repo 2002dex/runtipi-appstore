@@ -3,7 +3,7 @@
   "services": [
     {
       "name": "vibegateway",
-      "image": "dspworks/vibegateway:1.0.1",
+      "image": "dspworks/vibegateway:1.0.2",
       "isMain": true,
       "internalPort": 80,
       "environment": [
@@ -22,6 +22,14 @@
         {
           "key": "DB_NAME",
           "value": "vshgateway"
+        },
+        {
+          "key": "MQTT_HOST",
+          "value": "vibegateway-mqtt"
+        },
+        {
+          "key": "MQTT_PORT",
+          "value": "1883"
         }
       ],
       "devices": [
@@ -74,6 +82,31 @@
         "retries": 10,
         "startPeriod": "30s"
       }
+    },
+    {
+      "name": "vibegateway-mqtt",
+      "image": "eclipse-mosquitto:2",
+      "containerName": "vibegateway-mqtt",
+      "ports": [
+        {
+          "hostPort": 1883,
+          "containerPort": 1883
+        }
+      ],
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/mosquitto/config",
+          "containerPath": "/mosquitto/config"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/mosquitto/data",
+          "containerPath": "/mosquitto/data"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/mosquitto/log",
+          "containerPath": "/mosquitto/log"
+        }
+      ]
     }
   ]
 }
