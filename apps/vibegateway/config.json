@@ -3,7 +3,7 @@
   "id": "vibegateway",
   "name": "VibeGateway",
   "description": "VibeGateway application",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "port": 8100,
   "categories": [
     "utilities"
@@ -12,12 +12,11 @@
     "arm64"
   ],
   "short_desc": "VibeGateway self-hosted application",
-  "author": "2002dex",
-  "source": "https://github.com/2002dex/vibegateway",
+  "author": "dspworks",
   "available": true,
   "exposable": true,
   "dynamic_config": true,
-  "tipi_version": 3,
+  "tipi_version": 4,
   "min_tipi_version": "4.5.0",
   "created_at": 1779965242759,
   "updated_at": 1779965242759
