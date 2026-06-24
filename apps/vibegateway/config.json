@@ -13,6 +13,7 @@
   ],
   "short_desc": "VibeGateway self-hosted application",
   "author": "dspworks",
+  "source": "https://dspworks.in",
   "available": true,
   "exposable": true,
   "dynamic_config": true,
