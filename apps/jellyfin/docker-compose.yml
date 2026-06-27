@@ -11,6 +11,11 @@ services:
       - PGID=1000
       - TZ=${TZ}
       - JELLYFIN_PublishedServerUrl=${APP_PROTOCOL:-http}://${APP_DOMAIN}/
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/mali0:/dev/mali0
+      - /dev/rga:/dev/rga
+      - /dev/mpp_service:/dev/mpp_service
     restart: unless-stopped
     ports:
       - ${APP_PORT}:8096
