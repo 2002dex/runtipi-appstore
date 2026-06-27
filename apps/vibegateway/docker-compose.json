@@ -25,19 +25,19 @@
         },
         {
           "key": "MQTT_HOST",
-          "value": "mqtt"
+          "value": "vibesmarthome.net"
         },
         {
           "key": "MQTT_PORT",
-          "value": "1883"
+          "value": "8883"
         },
         {
           "key": "MQTT_USER",
-          "value": "vibeclient_1"
+          "value": "Vibe_Admin"
         },
         {
           "key": "MQTT_PASSWORD",
-          "value": "Vib3@dsp#A$"
+          "value": "Vibe@mqtt1256"
         }
       ],
       "devices": [
@@ -97,8 +97,8 @@
       "containerName": "mqtt",
       "ports": [
         {
-          "hostPort": 1883,
-          "containerPort": 1883
+          "hostPort": 8883,
+          "containerPort": 8883
         }
       ],
       "volumes": [

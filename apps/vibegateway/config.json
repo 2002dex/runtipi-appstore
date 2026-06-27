@@ -17,7 +17,7 @@
   "available": true,
   "exposable": true,
   "dynamic_config": true,
-  "tipi_version": 6,
+  "tipi_version": 7,
   "min_tipi_version": "4.5.0",
   "created_at": 1779965242759,
   "updated_at": 1779965242759
