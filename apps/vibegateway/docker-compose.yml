@@ -1,6 +1,6 @@
 services:
   vibegateway:
-    image: dspworks/vibegateway:1.0.3
+    image: dspworks/vibegateway:1.0.4
     container_name: vibegateway
     restart: unless-stopped
     devices:
@@ -10,10 +10,10 @@ services:
       - DB_USER=root
       - DB_PASSWORD=dspworks
       - DB_NAME=vshgateway
-      - MQTT_HOST=mqtt
-      - MQTT_PORT=1883
-      - MQTT_USER=vibeclient_1
-      - MQTT_PASSWORD=Vib3@dsp#A$
+      - MQTT_LOCAL_HOST=mqtt
+      - MQTT_LOCAL_PORT=1883
+      - MQTT_LOCAL_USERNAME=vibeclient_1
+      - MQTT_LOCAL_PASSWORD=Vib3@dsp#A$
     depends_on:
       mariadb:
         condition: service_healthy
@@ -43,5 +43,16 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
+  mqtt:
+    image: eclipse-mosquitto:2
+    container_name: mqtt
+    ports:
+      - "1883:1883"
+      - "8883:8883"
+      - "9001:9001"
+    volumes:
+      - ${APP_DATA_DIR}/data/mosquitto/config:/mosquitto/config
+      - ${APP_DATA_DIR}/data/mosquitto/data:/mosquitto/data
+      - ${APP_DATA_DIR}/data/mosquitto/log:/mosquitto/log
 x-runtipi:
   schema_version: 2

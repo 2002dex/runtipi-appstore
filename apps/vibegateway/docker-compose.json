@@ -3,7 +3,7 @@
   "services": [
     {
       "name": "vibegateway",
-      "image": "dspworks/vibegateway:1.0.3",
+      "image": "dspworks/vibegateway:1.0.4",
       "isMain": true,
       "internalPort": 80,
       "environment": [
@@ -24,20 +24,20 @@
           "value": "vshgateway"
         },
         {
-          "key": "MQTT_HOST",
-          "value": "vibesmarthome.net"
+          "key": "MQTT_LOCAL_HOST",
+          "value": "mqtt"
         },
         {
-          "key": "MQTT_PORT",
-          "value": "8883"
+          "key": "MQTT_LOCAL_PORT",
+          "value": "1883"
         },
         {
-          "key": "MQTT_USER",
-          "value": "Vibe_Admin"
+          "key": "MQTT_LOCAL_USER",
+          "value": "vibeclient_1"
         },
         {
-          "key": "MQTT_PASSWORD",
-          "value": "Vibe@mqtt1256"
+          "key": "MQTT_LOCAL_PASSWORD",
+          "value": "Vib3@dsp#A$"
         }
       ],
       "devices": [
@@ -97,8 +97,16 @@
       "containerName": "mqtt",
       "ports": [
         {
+          "hostPort": 1883,
+          "containerPort": 1883
+        },
+        {
           "hostPort": 8883,
           "containerPort": 8883
+        },
+        {
+          "hostPort": 9001,
+          "containerPort": 9001
         }
       ],
       "volumes": [
