@@ -2,7 +2,7 @@
   "services": [
     {
       "name": "jellyfin",
-      "image": "lscr.io/linuxserver/jellyfin:10.11.6",
+      "image": "lscr.io/linuxserver/jellyfin:10.11.11",
       "isMain": true,
       "internalPort": 8096,
       "environment": [
@@ -37,6 +37,15 @@
         {
           "hostPath": "${ROOT_FOLDER_HOST}/media/data",
           "containerPath": "/media/data"
+        },
+        {
+          "type": "bind",
+          "hostPath": "/mnt/usb-hub",
+          "containerPath": "/usb",
+          "bind": {
+            "propagation": "rslave"
+          },
+          "readOnly": false
         }
       ]
     }

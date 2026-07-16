@@ -2,7 +2,7 @@
   "services": [
     {
       "name": "immich",
-      "image": "ghcr.io/immich-app/immich-server:v2.7.5",
+      "image": "ghcr.io/immich-app/immich-server:v3.0.2",
       "isMain": true,
       "internalPort": 2283,
       "environment": [
@@ -58,7 +58,7 @@
     },
     {
       "name": "immich-machine-learning",
-      "image": "ghcr.io/immich-app/immich-machine-learning:v2.7.5-rknn",
+      "image": "ghcr.io/immich-app/immich-machine-learning:v3.0.2-rknn",
       "securityOpt": [
         "systempaths=unconfined",
         "apparmor=unconfined"

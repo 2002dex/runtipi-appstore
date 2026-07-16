@@ -1,11 +1,12 @@
 version: '3.7'
 services:
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:10.11.6
+    image: lscr.io/linuxserver/jellyfin:10.11.11
     container_name: jellyfin
     volumes:
       - ${APP_DATA_DIR}/data/config:/config
       - ${ROOT_FOLDER_HOST}/media/data:/media/data
+      - /mnt/usb-hub:/usb:rslave
     environment:
       - PUID=1000
       - PGID=1000
