@@ -4,16 +4,11 @@
   "services": [
     {
       "name": "urbackup",
-      "image": "uroni/urbackup-server:latest",
+      "image": "uroni/urbackup-server:2.5.x-zfs",
       "isMain": true,
       "privileged": true,
       "restart": "unless-stopped",
       "internalPort": 55414,
-      "entrypoint": [
-        "/bin/sh",
-        "-c",
-        "if [ -f /etc/apt/sources.list.d/debian.sources ]; then sed -i 's/Components: main/Components: main contrib/g' /etc/apt/sources.list.d/debian.sources; else echo \"deb http://deb.debian.org/debian trixie contrib\" >> /etc/apt/sources.list; fi && apt-get update && apt-get install -y zfsutils-linux libguestfs-tools && /usr/bin/entrypoint.sh run"
-      ],
       "environment": [
         {
           "key": "PUID",

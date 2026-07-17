@@ -1,38 +1,20 @@
 version: '3.7'
 services:
   urbackup:
-    image: uroni/urbackup-server:latest
+    image: uroni/urbackup-server:2.5.x-zfs
     container_name: urbackup
     privileged: true
     restart: unless-stopped
-    entrypoint:
-      - /bin/sh
-      - -c
-      - |
-        # 1. Enable the 'contrib' repository for Debian to access ZFS packages
-        if [ -f /etc/apt/sources.list.d/debian.sources ]; then
-          sed -i 's/Components: main/Components: main contrib/g' /etc/apt/sources.list.d/debian.sources
-        else
-          echo "deb http://deb.debian.org/debian trixie contrib" >> /etc/apt/sources.list
-        fi
-        
-        # 2. Update and install ZFS utilities and guestmount (to fix the image mount error)
-        apt-get update && apt-get install -y zfsutils-linux libguestfs-tools
-        
-        # 3. Start UrBackup
-        /usr/bin/entrypoint.sh run
     environment:
       - PUID=0
       - PGID=0
       - TZ=Asia/Kolkata
       - ZFS_IMAGE=mypool/urbackup/images
       - ZFS_FILES=mypool/urbackup/files
-      
     volumes:
       - /mnt/urbackup/database:/var/urbackup
       - /mnt/urbackup/settings:/etc/urbackup
       - /mnt/urbackup:/mnt/urbackup
-      
     devices:
       - /dev/zfs:/dev/zfs
     ports:
