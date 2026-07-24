@@ -3,7 +3,7 @@
   "services": [
     {
       "name": "vibegateway",
-      "image": "dspworks/vibegateway:1.0.4",
+      "image": "dspworks/vibegateway:1.0.5",
       "isMain": true,
       "internalPort": 80,
       "environment": [

@@ -1,6 +1,6 @@
 services:
   vibegateway:
-    image: dspworks/vibegateway:1.0.4
+    image: dspworks/vibegateway:1.0.5
     container_name: vibegateway
     restart: unless-stopped
     devices:
