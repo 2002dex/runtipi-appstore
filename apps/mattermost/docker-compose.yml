@@ -1,0 +1,58 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:13-alpine
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 100
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/postgresql
+    volumes:
+      - ${APP_DATA_DIR}/db:/var/lib/postgresql/data
+    environment:
+      - TZ=${TZ:-Asia/Kolkata}
+      - POSTGRES_USER=mmuser
+      - POSTGRES_PASSWORD=mmuser_password
+      - POSTGRES_DB=mattermost
+
+  permissions:
+    image: busybox:latest
+    command: sh -c "mkdir -p /mattermost/config /mattermost/data /mattermost/logs /mattermost/plugins /mattermost/client/plugins /mattermost/bleve-indexes && chown -R 2000:2000 /mattermost"
+    volumes:
+      - ${APP_DATA_DIR}/mattermost:/mattermost
+
+  mattermost:
+    image: mattermost/mattermost-team-edition:10.11.2
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - permissions
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 200
+    read_only: false
+    ports:
+      - "8065:8065"
+    tmpfs:
+      - /tmp
+    volumes:
+      - ${APP_DATA_DIR}/mattermost/config:/mattermost/config:rw
+      - ${APP_DATA_DIR}/mattermost/data:/mattermost/data:rw
+      - ${APP_DATA_DIR}/mattermost/logs:/mattermost/logs:rw
+      - ${APP_DATA_DIR}/mattermost/plugins:/mattermost/plugins:rw
+      - ${APP_DATA_DIR}/mattermost/client/plugins:/mattermost/client/plugins:rw
+      - ${APP_DATA_DIR}/mattermost/bleve-indexes:/mattermost/bleve-indexes:rw
+    environment:
+      - TZ=${TZ:-Asia/Kolkata}
+      - MM_SQLSETTINGS_DRIVERNAME=postgres
+      - MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mmuser_password@postgres:5432/mattermost?sslmode=disable&connect_timeout=10
+      - MM_BLEVESETTINGS_INDEXDIR=/mattermost/bleve-indexes
+      - MM_SERVICESETTINGS_SITEURL=https://${APP_DOMAIN}
+      - MM_SERVICESETTINGS_TRUSTEDPROXYIPHEADER=X-Forwarded-For
+    networks:
+      - tipi_main_network
+    labels:
+      - runtipi.managed: true

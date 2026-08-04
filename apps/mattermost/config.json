@@ -1,0 +1,19 @@
+{
+  "$schema": "../app-info-schema.json",
+  "name": "Mattermost",
+  "available": true,
+  "exposable": true,
+  "port": 8065,
+  "id": "mattermost",
+  "tipi_version": 1,
+  "version": "10.11.2",
+  "categories": [
+    "social"
+  ],
+  "description": "Open source team collaboration platform.",
+  "short_desc": "Self-hosted Slack alternative",
+  "author": "Mattermost",
+  "source": "https://github.com/mattermost/mattermost",
+  "website": "https://mattermost.com",
+  "form_fields": []
+}
