@@ -1,18 +1,109 @@
 {
   "services": [
     {
-      "name": "postgres",
-      "image": "postgres:13-alpine",
-      "environment": {
-        "TZ": "${TZ:-Asia/Kolkata}",
-        "POSTGRES_USER": "mmuser",
-        "POSTGRES_PASSWORD": "mmuser_password",
-        "POSTGRES_DB": "mattermost"
-      },
+      "name": "mattermost",
+      "image": "ngrie/mattermost-team-edition-arm:10.11.2",
+      "isMain": true,
+      "dependsOn": [
+        "postgres",
+        "permissions"
+      ],
+      "internalPort": 8065,
+      "environment": [
+        {
+          "key": "TZ",
+          "value": "${TZ:-Asia/Kolkata}"
+        },
+        {
+          "key": "MM_SQLSETTINGS_DRIVERNAME",
+          "value": "postgres"
+        },
+        {
+          "key": "MM_SQLSETTINGS_DATASOURCE",
+          "value": "postgres://mmuser:mmuser_password@postgres:5432/mattermost?sslmode=disable&connect_timeout=10"
+        },
+        {
+          "key": "MM_BLEVESETTINGS_INDEXDIR",
+          "value": "/mattermost/bleve-indexes"
+        },
+        {
+          "key": "MM_SERVICESETTINGS_SITEURL",
+          "value": "https://${APP_DOMAIN}"
+        },
+        {
+          "key": "MM_SERVICESETTINGS_TRUSTEDPROXYIPHEADER",
+          "value": "X-Forwarded-For"
+        }
+      ],
+      "ports": [
+        "8065:8065"
+      ],
       "volumes": [
         {
-          "host": "${APP_DATA_DIR}/db",
-          "container": "/var/lib/postgresql/data"
+          "hostPath": "${APP_DATA_DIR}/mattermost/config",
+          "containerPath": "/mattermost/config"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/mattermost/data",
+          "containerPath": "/mattermost/data"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/mattermost/logs",
+          "containerPath": "/mattermost/logs"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/mattermost/plugins",
+          "containerPath": "/mattermost/plugins"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/mattermost/client/plugins",
+          "containerPath": "/mattermost/client/plugins"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/mattermost/bleve-indexes",
+          "containerPath": "/mattermost/bleve-indexes"
+        }
+      ],
+      "tmpfs": [
+        "/tmp"
+      ],
+      "restart": "unless-stopped",
+      "securityOpt": [
+        "no-new-privileges:true"
+      ],
+      "deploy": {
+        "resources": {
+          "limits": {
+            "pids": 200
+          }
+        }
+      }
+    },
+    {
+      "name": "postgres",
+      "image": "postgres:13-alpine",
+      "environment": [
+        {
+          "key": "TZ",
+          "value": "${TZ:-Asia/Kolkata}"
+        },
+        {
+          "key": "POSTGRES_USER",
+          "value": "mmuser"
+        },
+        {
+          "key": "POSTGRES_PASSWORD",
+          "value": "mmuser_password"
+        },
+        {
+          "key": "POSTGRES_DB",
+          "value": "mattermost"
+        }
+      ],
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/db",
+          "containerPath": "/var/lib/postgresql/data"
         }
       ],
       "tmpfs": [
@@ -21,10 +112,16 @@
       ],
       "read_only": true,
       "restart": "unless-stopped",
-      "security_opt": [
+      "securityOpt": [
         "no-new-privileges:true"
       ],
-      "pids_limit": 100
+      "deploy": {
+        "resources": {
+          "limits": {
+            "pids": "100"
+          }
+        }
+      }
     },
     {
       "name": "permissions",
@@ -32,65 +129,11 @@
       "command": "sh -c \"mkdir -p /mattermost/config /mattermost/data /mattermost/logs /mattermost/plugins /mattermost/client/plugins /mattermost/bleve-indexes && chown -R 2000:2000 /mattermost\"",
       "volumes": [
         {
-          "host": "${APP_DATA_DIR}/mattermost",
-          "container": "/mattermost"
+          "hostPath": "${APP_DATA_DIR}/mattermost",
+          "containerPath": "/mattermost"
         }
       ],
       "restart": "no"
-    },
-    {
-      "name": "mattermost",
-      "image": "ngrie/mattermost-team-edition-arm:10.11.2",
-      "depends_on": [
-        "postgres",
-        "permissions"
-      ],
-      "environment": {
-        "TZ": "${TZ:-Asia/Kolkata}",
-        "MM_SQLSETTINGS_DRIVERNAME": "postgres",
-        "MM_SQLSETTINGS_DATASOURCE": "postgres://mmuser:mmuser_password@postgres:5432/mattermost?sslmode=disable&connect_timeout=10",
-        "MM_BLEVESETTINGS_INDEXDIR": "/mattermost/bleve-indexes",
-        "MM_SERVICESETTINGS_SITEURL": "https://${APP_DOMAIN}",
-        "MM_SERVICESETTINGS_TRUSTEDPROXYIPHEADER": "X-Forwarded-For"
-      },
-      "ports": [
-        "8065:8065"
-      ],
-      "volumes": [
-        {
-          "host": "${APP_DATA_DIR}/mattermost/config",
-          "container": "/mattermost/config"
-        },
-        {
-          "host": "${APP_DATA_DIR}/mattermost/data",
-          "container": "/mattermost/data"
-        },
-        {
-          "host": "${APP_DATA_DIR}/mattermost/logs",
-          "container": "/mattermost/logs"
-        },
-        {
-          "host": "${APP_DATA_DIR}/mattermost/plugins",
-          "container": "/mattermost/plugins"
-        },
-        {
-          "host": "${APP_DATA_DIR}/mattermost/client/plugins",
-          "container": "/mattermost/client/plugins"
-        },
-        {
-          "host": "${APP_DATA_DIR}/mattermost/bleve-indexes",
-          "container": "/mattermost/bleve-indexes"
-        }
-      ],
-      "tmpfs": [
-        "/tmp"
-      ],
-      "restart": "unless-stopped",
-      "security_opt": [
-        "no-new-privileges:true"
-      ],
-      "pids_limit": 200,
-      "add_tipi_labels": true
     }
   ],
   "schemaVersion": 2,

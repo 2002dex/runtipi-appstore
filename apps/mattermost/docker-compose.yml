@@ -1,4 +1,5 @@
-version: "3.9"
+x-runtipi:
+  schema_version: 2
 services:
   postgres:
     image: postgres:13-alpine
@@ -7,11 +8,16 @@ services:
       - no-new-privileges:true
     pids_limit: 100
     read_only: true
-    tmpfs:
-      - /tmp
-      - /var/run/postgresql
     volumes:
       - ${APP_DATA_DIR}/db:/var/lib/postgresql/data
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          size: 536870912 # 512MB RAM cap
+      - type: tmpfs
+        target: /var/run/postgresql
+        tmpfs:
+          size: 67108864 # 64MB RAM cap
     environment:
       - TZ=${TZ:-Asia/Kolkata}
       - POSTGRES_USER=mmuser
@@ -27,6 +33,9 @@ services:
   mattermost:
     image: mattermost/mattermost-team-edition:10.11.2
     restart: unless-stopped
+    x-runtipi:
+      internal_port: 8065
+      is_main: true
     depends_on:
       - postgres
       - permissions
@@ -36,8 +45,6 @@ services:
     read_only: false
     ports:
       - "8065:8065"
-    tmpfs:
-      - /tmp
     volumes:
       - ${APP_DATA_DIR}/mattermost/config:/mattermost/config:rw
       - ${APP_DATA_DIR}/mattermost/data:/mattermost/data:rw
@@ -45,6 +52,10 @@ services:
       - ${APP_DATA_DIR}/mattermost/plugins:/mattermost/plugins:rw
       - ${APP_DATA_DIR}/mattermost/client/plugins:/mattermost/client/plugins:rw
       - ${APP_DATA_DIR}/mattermost/bleve-indexes:/mattermost/bleve-indexes:rw
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          size: 536870912 # 512MB RAM cap
     environment:
       - TZ=${TZ:-Asia/Kolkata}
       - MM_SQLSETTINGS_DRIVERNAME=postgres
