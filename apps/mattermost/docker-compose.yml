@@ -70,5 +70,6 @@ services:
       - MM_SERVICESETTINGS_SITEURL=https://${APP_DOMAIN}
       - MM_SERVICESETTINGS_TRUSTEDPROXYIPHEADER=X-Forwarded-For
       - MM_SERVICESETTINGS_ALLOWCORSFROM=*
+      - MM_LOGSETTINGS_ENABLEDIAGNOSTICS=false
     networks:
       - tipi_main_network
