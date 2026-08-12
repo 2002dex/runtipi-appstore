@@ -23,13 +23,14 @@ services:
       - POSTGRES_USER=mmuser
       - POSTGRES_PASSWORD=mmuser_password
       - POSTGRES_DB=mattermost
-
   permissions:
     image: busybox:latest
     command: sh -c "mkdir -p /mattermost/config /mattermost/data /mattermost/logs /mattermost/plugins /mattermost/client/plugins /mattermost/bleve-indexes && chown -R 2000:2000 /mattermost"
     volumes:
       - ${APP_DATA_DIR}/mattermost:/mattermost
-
+    restart: "no"
+    x-runtipi:
+      is_helper: true
   mattermost:
     image:  ngrie/mattermost-team-edition-arm:10.11.2
     restart: unless-stopped
@@ -37,8 +38,10 @@ services:
       internal_port: 8065
       is_main: true
     depends_on:
-      - postgres
-      - permissions
+      postgres:
+        condition: service_started
+      permissions:
+        condition: service_completed_successfully
     security_opt:
       - no-new-privileges:true
     pids_limit: 200
@@ -63,5 +66,6 @@ services:
       - MM_BLEVESETTINGS_INDEXDIR=/mattermost/bleve-indexes
       - MM_SERVICESETTINGS_SITEURL=https://${APP_DOMAIN}
       - MM_SERVICESETTINGS_TRUSTEDPROXYIPHEADER=X-Forwarded-For
+      - MM_SERVICESETTINGS_ALLOWCORSFROM=*
     networks:
       - tipi_main_network
