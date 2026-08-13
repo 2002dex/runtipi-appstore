@@ -1,6 +1,6 @@
 services:
   web:
-    image: jitsi/web:${JITSI_IMAGE_VERSION:-stable-11146-1}
+    image: ghcr.io/jitsi/web:${JITSI_IMAGE_VERSION:-stable-11146-1}
     restart: unless-stopped
     read_only: true
     tmpfs:
@@ -57,7 +57,7 @@ services:
       internal_port: 8000
 
   prosody:
-    image: jitsi/prosody:${JITSI_IMAGE_VERSION:-stable-11146-1}
+    image: ghcr.io/jitsi/prosody:${JITSI_IMAGE_VERSION:-stable-11146-1}
     restart: unless-stopped
     read_only: true
     tmpfs:
@@ -101,7 +101,7 @@ services:
           - xmpp.meet.jitsi
 
   jicofo:
-    image: jitsi/jicofo:${JITSI_IMAGE_VERSION:-stable-11146-1}
+    image: ghcr.io/jitsi/jicofo:${JITSI_IMAGE_VERSION:-stable-11146-1}
     restart: unless-stopped
     read_only: true
     tmpfs:
@@ -136,7 +136,7 @@ services:
       - meet.jitsi
 
   jvb:
-    image: jitsi/jvb:${JITSI_IMAGE_VERSION:-stable-11146-1}
+    image: ghcr.io/jitsi/jvb:${JITSI_IMAGE_VERSION:-stable-11146-1}
     restart: unless-stopped
     read_only: true
     tmpfs:
