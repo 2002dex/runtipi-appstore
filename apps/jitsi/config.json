@@ -1,0 +1,38 @@
+{
+  "name": "Jitsi Meet",
+  "id": "jitsi-meet",
+  "available": true,
+  "short_desc": "Secure, open-source video conferencing platform.",
+  "author": "Jitsi",
+  "port": 8000,
+  "categories": [
+    "social",
+    "network"
+  ],
+  "description": "Jitsi Meet is an open-source video conferencing solution. This Runtipi package runs the Jitsi Meet web frontend, Prosody XMPP server, Jicofo conference focus, and Jitsi Videobridge with Traefik-managed web routing and a direct UDP media port.",
+  "tipi_version": 1,
+  "version": "stable-11146-1",
+  "source": "https://github.com/jitsi/docker-jitsi-meet",
+  "website": "https://jitsi.org/jitsi-meet/",
+  "exposable": true,
+  "force_expose": true,
+  "https": true,
+  "supported_architectures": [
+    "arm64",
+    "amd64"
+  ],
+  "dynamic_config": true,
+  "min_tipi_version": "4.5.0",
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "JVB advertised IP(s)",
+      "hint": "Publicly reachable JVB address. IPv4, IPv6, or comma-separated addresses. Do not enter a private LAN address.",
+      "placeholder": "203.0.113.10 or 2001:db8::10",
+      "min": 3,
+      "max": 200,
+      "required": true,
+      "env_variable": "JVB_ADVERTISE_IPS"
+    }
+  ]
+}
