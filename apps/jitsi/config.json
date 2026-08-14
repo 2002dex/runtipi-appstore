@@ -33,6 +33,33 @@
       "max": 200,
       "required": true,
       "env_variable": "JVB_ADVERTISE_IPS"
+    },
+    {
+      "type": "random",
+      "label": "Jicofo component secret",
+      "hint": "Generated automatically.",
+      "min": 32,
+      "encoding": "hex",
+      "required": true,
+      "env_variable": "JICOFO_COMPONENT_SECRET"
+    },
+    {
+      "type": "random",
+      "label": "Jicofo authentication password",
+      "hint": "Generated automatically.",
+      "min": 32,
+      "encoding": "hex",
+      "required": true,
+      "env_variable": "JICOFO_AUTH_PASSWORD"
+    },
+    {
+      "type": "random",
+      "label": "JVB authentication password",
+      "hint": "Generated automatically.",
+      "min": 32,
+      "encoding": "hex",
+      "required": true,
+      "env_variable": "JVB_AUTH_PASSWORD"
     }
   ]
 }
