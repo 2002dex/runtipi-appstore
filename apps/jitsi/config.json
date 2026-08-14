@@ -35,6 +35,14 @@
       "env_variable": "JVB_ADVERTISE_IPS"
     },
     {
+    "type": "boolean",
+    "label": "Enable authentication",
+    "hint": "Require users to authenticate before creating or joining meetings.",
+    "default": false,
+    "required": false,
+    "env_variable": "ENABLE_AUTH"
+    },
+    {
       "type": "random",
       "label": "Jicofo component secret",
       "hint": "Generated automatically.",

@@ -3,6 +3,8 @@ services:
     image: ghcr.io/jitsi/web:stable-11146-1
     restart: unless-stopped
     read_only: true
+    ports:
+      - "${APP_PORT}:8000"
     tmpfs:
       - /run:size=16M,mode=1750,exec
       - /tmp:size=16M,mode=1777,noexec
@@ -35,7 +37,7 @@ services:
       XMPP_WEBSOCKET_URL: wss://${APP_DOMAIN}/xmpp-websocket
 
       AUTH_TYPE: internal
-      ENABLE_AUTH: "0"
+      ENABLE_AUTH: ${ENABLE_AUTH:-"0"}
       ENABLE_GUESTS: "1"
       ENABLE_LOBBY: "1"
       ENABLE_PREJOIN_PAGE: "1"
@@ -72,7 +74,7 @@ services:
       PUBLIC_URL: ${APP_PROTOCOL}://${APP_DOMAIN}
 
       AUTH_TYPE: internal
-      ENABLE_AUTH: "0"
+      ENABLE_AUTH: ${ENABLE_AUTH:-"0"}
       ENABLE_GUESTS: "1"
       ENABLE_LOBBY: "1"
       ENABLE_XMPP_WEBSOCKET: "1"
@@ -112,7 +114,7 @@ services:
     environment:
       TZ: ${TZ}
       AUTH_TYPE: internal
-      ENABLE_AUTH: "0"
+      ENABLE_AUTH: ${ENABLE_AUTH:-"0"}
       ENABLE_AUTO_OWNER: "1"
       ENABLE_AUTO_LOGIN: "1"
       ENABLE_IPV6: "1"
