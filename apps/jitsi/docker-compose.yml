@@ -37,7 +37,7 @@ services:
       XMPP_WEBSOCKET_URL: wss://${APP_DOMAIN}/xmpp-websocket
 
       AUTH_TYPE: internal
-      ENABLE_AUTH: ${ENABLE_AUTH:-"0"}
+      ENABLE_AUTH: ${ENABLE_AUTH}
       ENABLE_GUESTS: "1"
       ENABLE_LOBBY: "1"
       ENABLE_PREJOIN_PAGE: "1"
@@ -62,6 +62,11 @@ services:
     image: ghcr.io/jitsi/prosody:stable-11146-1
     restart: unless-stopped
     read_only: true
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - |
+        chown -R 1000:1000 /config /prosody-plugins-custom /var/lib/prosody && exec /init
     tmpfs:
       - /run:size=16M,mode=1750,exec
       - /tmp:size=16M,mode=1777,noexec
@@ -74,7 +79,7 @@ services:
       PUBLIC_URL: ${APP_PROTOCOL}://${APP_DOMAIN}
 
       AUTH_TYPE: internal
-      ENABLE_AUTH: ${ENABLE_AUTH:-"0"}
+      ENABLE_AUTH: ${ENABLE_AUTH}
       ENABLE_GUESTS: "1"
       ENABLE_LOBBY: "1"
       ENABLE_XMPP_WEBSOCKET: "1"
@@ -114,7 +119,7 @@ services:
     environment:
       TZ: ${TZ}
       AUTH_TYPE: internal
-      ENABLE_AUTH: ${ENABLE_AUTH:-"0"}
+      ENABLE_AUTH: ${ENABLE_AUTH}
       ENABLE_AUTO_OWNER: "1"
       ENABLE_AUTO_LOGIN: "1"
       ENABLE_IPV6: "1"

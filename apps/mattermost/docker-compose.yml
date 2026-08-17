@@ -2,14 +2,14 @@ x-runtipi:
   schema_version: 2
 services:
   postgres:
-    image: postgres:13-alpine
+    image: postgres:16-alpine
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
     pids_limit: 100
     read_only: true
     volumes:
-      - ${APP_DATA_DIR}/db:/var/lib/postgresql/data
+      - ${APP_DATA_DIR}/db:/var/lib/postgresql
       - type: tmpfs
         target: /tmp
         tmpfs:
@@ -23,21 +23,6 @@ services:
       - POSTGRES_USER=mmuser
       - POSTGRES_PASSWORD=mmuser_password
       - POSTGRES_DB=mattermost
-  permissions:
-    image: busybox:latest
-    command: >
-      sh -c "mkdir -p /mattermost/config /mattermost/data /mattermost/logs /mattermost/plugins /mattermost/client/plugins /mattermost/bleve-indexes && 
-             chown -R 2000:2000 /mattermost && 
-             touch /tmp/ready && 
-             sleep infinity"
-    healthcheck:
-      test: ["CMD", "test", "-f", "/tmp/ready"]
-      interval: 2s
-      timeout: 1s
-      retries: 5
-    volumes:
-      - ${APP_DATA_DIR}/mattermost:/mattermost
-    restart: unless-stopped
   mattermost:
     image:  ngrie/mattermost-team-edition-arm:10.11.2
     restart: unless-stopped
@@ -46,7 +31,6 @@ services:
       is_main: true
     depends_on:
       - postgres
-      - permissions
     security_opt:
       - no-new-privileges:true
     pids_limit: 200
@@ -72,5 +56,10 @@ services:
       - MM_SERVICESETTINGS_ALLOWCORSFROM=*
       - MM_LOGSETTINGS_ENABLEDIAGNOSTICS=false
       - MM_PLUGINSETTINGS_ENABLEUPLOADS=true
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - |
+        chown -R 2000:2000 /mattermost && exec /entrypoint.sh mattermost
     networks:
       - tipi_main_network

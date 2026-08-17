@@ -20,7 +20,7 @@
         },
         {
           "key": "TZ",
-          "value": "Asia/Kolkata"
+          "value": "${TZ:-Asia/Kolkata}"
         },
         {
           "key": "ZFS_IMAGE",
