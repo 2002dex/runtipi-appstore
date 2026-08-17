@@ -9,7 +9,7 @@ services:
     pids_limit: 100
     read_only: true
     volumes:
-      - ${APP_DATA_DIR}/db:/var/lib/postgresql/data
+      - ${APP_DATA_DIR}/db:/var/lib/postgresql
     tmpfs:
       - /tmp
       - /var/run/postgresql
@@ -51,7 +51,24 @@ services:
       - MM_SERVICESETTINGS_ALLOWCORSFROM=*
       - MM_LOGSETTINGS_ENABLEDIAGNOSTICS=false
       - MM_PLUGINSETTINGS_ENABLEUPLOADS=true
-    command:
-      - /mattermost/bin/mattermost
+    user: "0:0"
+    entrypoint:
+    - /bin/sh
+    - -c
+    - |
+        set -e
+
+        echo "Fixing Mattermost volume ownership..."
+
+        chown -R 2000:2000 /mattermost/config \
+                           /mattermost/data \
+                           /mattermost/logs \
+                           /mattermost/plugins \
+                           /mattermost/client/plugins \
+                           /mattermost/bleve-indexes
+
+        echo "Starting Mattermost as UID 2000..."
+
+        exec su-exec 2000:2000 /mattermost/bin/mattermost server
     networks:
       - tipi_main_network
