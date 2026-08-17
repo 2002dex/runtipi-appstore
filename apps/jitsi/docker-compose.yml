@@ -71,12 +71,14 @@ services:
       - -c
       - |
         set -e
-        echo "Fixing Prosody permissions..."
         chown -R 1000:1000 \
           /config \
           /prosody-plugins-custom \
           /var/lib/prosody
-        echo "Prosody permissions fixed."
+        touch /tmp/ready &&
+        exec sleep infinity
+    healthcheck:
+      test: ["CMD", "test", "-f", "/tmp/ready"]
   prosody:
     image: ghcr.io/jitsi/prosody:stable-11146-1
     restart: unless-stopped

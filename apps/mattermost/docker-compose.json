@@ -103,7 +103,7 @@
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/db",
-          "containerPath": "/var/lib/postgresql/data"
+          "containerPath": "/var/lib/postgresql"
         }
       ],
       "tmpfs": [
