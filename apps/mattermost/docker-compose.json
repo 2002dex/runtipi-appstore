@@ -5,7 +5,8 @@
       "image": "ngrie/mattermost-team-edition-arm:10.11.2",
       "isMain": true,
       "dependsOn": [
-        "postgres"
+        "postgres",
+        "permissions"
       ],
       "internalPort": 8065,
       "environment": [
@@ -121,6 +122,17 @@
           }
         }
       }
+    },
+    {
+      "name": "permissions",
+      "image": "busybox:latest",
+      "command": "sh -c \"mkdir -p /mattermost/config /mattermost/data /mattermost/logs /mattermost/plugins /mattermost/client/plugins /mattermost/bleve-indexes && chown -R 2000:2000 /mattermost\"",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/mattermost",
+          "containerPath": "/mattermost"
+        }
+      ]
     }
   ],
   "schemaVersion": 2,

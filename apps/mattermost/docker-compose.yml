@@ -1,25 +1,6 @@
 x-runtipi:
   schema_version: 2
 services:
-  postgres:
-    image: postgres:16-alpine
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
-    pids_limit: 100
-    read_only: true
-    volumes:
-      - ${APP_DATA_DIR}/db:/var/lib/postgresql/data
-    tmpfs:
-      - /tmp
-      - /var/run/postgresql
-    environment:
-      - TZ=${TZ:-Asia/Kolkata}
-      - POSTGRES_USER=mmuser
-      - POSTGRES_PASSWORD=mmuser_password
-      - POSTGRES_DB=mattermost
-    networks:
-      - tipi_main_network
   mattermost:
     image: ngrie/mattermost-team-edition-arm:10.11.2
     restart: unless-stopped
@@ -28,6 +9,7 @@ services:
       is_main: true
     depends_on:
       - postgres
+      - permissions
     security_opt:
       - no-new-privileges:true
     pids_limit: 200
@@ -51,24 +33,39 @@ services:
       - MM_SERVICESETTINGS_ALLOWCORSFROM=*
       - MM_LOGSETTINGS_ENABLEDIAGNOSTICS=false
       - MM_PLUGINSETTINGS_ENABLEUPLOADS=true
-    user: "0:0"
-    entrypoint:
-    - /bin/sh
-    - -c
-    - |
-        set -e
-
-        echo "Fixing Mattermost volume ownership..."
-
-        chown -R 2000:2000 /mattermost/config \
-                           /mattermost/data \
-                           /mattermost/logs \
-                           /mattermost/plugins \
-                           /mattermost/client/plugins \
-                           /mattermost/bleve-indexes
-
-        echo "Starting Mattermost as UID 2000..."
-
-        exec su-exec 2000:2000 /mattermost/bin/mattermost server
     networks:
       - tipi_main_network
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 100
+    read_only: true
+    volumes:
+      - ${APP_DATA_DIR}/db:/var/lib/postgresql
+    tmpfs:
+      - /tmp
+      - /var/run/postgresql
+    environment:
+      - TZ=${TZ:-Asia/Kolkata}
+      - POSTGRES_USER=mmuser
+      - POSTGRES_PASSWORD=mmuser_password
+      - POSTGRES_DB=mattermost
+    networks:
+      - tipi_main_network
+  permissions:
+    image: busybox:latest
+    command: >
+      sh -c "mkdir -p /mattermost/config /mattermost/data /mattermost/logs /mattermost/plugins /mattermost/client/plugins /mattermost/bleve-indexes && 
+             chown -R 2000:2000 /mattermost && 
+             touch /tmp/ready && 
+             sleep infinity"
+    healthcheck:
+      test: ["CMD", "test", "-f", "/tmp/ready"]
+      interval: 2s
+      timeout: 1s
+      retries: 5
+    volumes:
+      - ${APP_DATA_DIR}/mattermost:/mattermost
+    restart: unless-stopped

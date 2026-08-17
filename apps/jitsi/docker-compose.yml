@@ -67,7 +67,7 @@ services:
       - "/bin/sh"
       - "-c"
       - |
-        chown -R 1000:1000 /config /prosody-plugins-custom /var/lib/prosody && exec /init
+        chown -R 1000:1000 /config /var/lib/prosody && exec s6-setuidgid 1000:1000 /init
     tmpfs:
       - /run:size=16M,mode=1750,exec
       - /tmp:size=16M,mode=1777,noexec
