@@ -53,7 +53,7 @@ services:
       - MM_PLUGINSETTINGS_ENABLEUPLOADS=true
     user: "0:0"
     entrypoint:
-    - /bin/sh
+    - /bin/bash
     - -c
     - |
         set -e
