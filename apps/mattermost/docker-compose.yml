@@ -9,7 +9,7 @@ services:
     pids_limit: 100
     read_only: true
     volumes:
-      - ${APP_DATA_DIR}/db:/var/lib/postgresql
+      - ${APP_DATA_DIR}/db:/var/lib/postgresql/data
     tmpfs:
       - /tmp
       - /var/run/postgresql
@@ -53,7 +53,7 @@ services:
       - MM_PLUGINSETTINGS_ENABLEUPLOADS=true
     user: "0:0"
     entrypoint:
-    - /bin/bash
+    - /bin/sh
     - -c
     - |
         set -e
