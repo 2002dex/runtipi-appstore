@@ -58,6 +58,25 @@ services:
       is_main: true
       internal_port: 8000
 
+  prosody-init:
+    image: alpine:3.22
+    restart: "no"
+    user: "0:0"
+    volumes:
+      - ${APP_DATA_DIR}/prosody/config:/config
+      - ${APP_DATA_DIR}/prosody/prosody-plugins-custom:/prosody-plugins-custom
+      - ${APP_DATA_DIR}/prosody/storage:/var/lib/prosody
+    command:
+      - /bin/sh
+      - -c
+      - |
+        set -e
+        echo "Fixing Prosody permissions..."
+        chown -R 1000:1000 \
+          /config \
+          /prosody-plugins-custom \
+          /var/lib/prosody
+        echo "Prosody permissions fixed."
   prosody:
     image: ghcr.io/jitsi/prosody:stable-11146-1
     restart: unless-stopped
@@ -103,6 +122,8 @@ services:
       JVB_AUTH_USER: jvb
       JVB_AUTH_PASSWORD: ${JVB_AUTH_PASSWORD}
       JVB_BREWERY_MUC: jvbbrewery
+    depends_on:
+      - prosody-init
     networks:
       meet.jitsi:
         aliases:
