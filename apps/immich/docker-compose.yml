@@ -2,7 +2,7 @@ version: '3.7'
 services:
   immich:
     container_name: immich
-    image: ghcr.io/immich-app/immich-server:v3.0.2
+    image: ghcr.io/immich-app/immich-server:v3.3.5
     volumes:
       - ${ROOT_FOLDER_HOST}/media/data/images/immich:/usr/src/app/upload
       - /mnt/usb-hub:/usb:rslave
@@ -46,7 +46,7 @@ services:
       runtipi.managed: true
   immich-machine-learning:
     container_name: immich-machine-learning
-    image: ghcr.io/immich-app/immich-machine-learning:v3.0.2-rknn
+    image: ghcr.io/immich-app/immich-machine-learning:v3.3.5-rknn
     security_opt:
       - systempaths=unconfined
       - apparmor=unconfined

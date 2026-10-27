@@ -1,8 +1,8 @@
 {
   "services": [
     {
-      "name": "n8n-1",
-      "image": "n8nio/n8n:2.35.3",
+      "name": "n8n",
+      "image": "n8nio/n8n:2.45.3",
       "isMain": true,
       "internalPort": 5678,
       "environment": [
@@ -61,7 +61,7 @@
     },
     {
       "name": "n8n-db",
-      "image": "postgres:17",
+      "image": "postgres:18",
       "environment": [
         {
           "key": "POSTGRES_USER",

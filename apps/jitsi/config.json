@@ -10,8 +10,8 @@
     "network"
   ],
   "description": "Jitsi Meet is an open-source video conferencing solution. This Runtipi package runs the Jitsi Meet web frontend, Prosody XMPP server, Jicofo conference focus, and Jitsi Videobridge with Traefik-managed web routing and a direct UDP media port.",
-  "tipi_version": 1,
-  "version": "stable-11146-1",
+  "tipi_version": 2,
+  "version": "stable-11248-2",
   "source": "https://github.com/jitsi/docker-jitsi-meet",
   "website": "https://jitsi.org/jitsi-meet/",
   "exposable": true,
@@ -41,6 +41,89 @@
     "default": false,
     "required": false,
     "env_variable": "ENABLE_AUTH"
+    },
+    {
+      "type": "text",
+      "label": "TURN server host",
+      "hint": "Hostname or IP address of the external TURN server. Leave empty to disable TURN.",
+      "placeholder": "turn.example.com",
+      "min": 1,
+      "max": 255,
+      "required": false,
+      "env_variable": "TURN_HOST"
+    },
+    {
+      "type": "text",
+      "label": "TURN server port",
+      "hint": "TURN server port for UDP or TCP.",
+      "placeholder": "443",
+      "min": 1,
+      "max": 5,
+      "default": "443",
+      "required": false,
+      "env_variable": "TURN_PORT"
+    },
+    {
+      "type": "text",
+      "label": "TURN transport",
+      "hint": "Transport protocol used by TURN. Supported values are udp, tcp, or udp,tcp.",
+      "placeholder": "tcp",
+      "default": "tcp",
+      "min": 3,
+      "max": 20,
+      "required": false,
+      "env_variable": "TURN_TRANSPORT"
+    },
+    {
+      "type": "text",
+      "label": "TURN credentials",
+      "hint": "Static TURN credential/secret when using TURN_CREDENTIALS.",
+      "placeholder": "your-turn-secret",
+      "min": 1,
+      "max": 500,
+      "required": false,
+      "env_variable": "TURN_CREDENTIALS"
+    },
+    {
+      "type": "text",
+      "label": "TURN username",
+      "hint": "TURN username. Use this instead of TURN_CREDENTIALS when your TURN server uses username/password authentication.",
+      "placeholder": "turn-user",
+      "min": 1,
+      "max": 255,
+      "required": false,
+      "env_variable": "TURN_USERNAME"
+    },
+    {
+      "type": "text",
+      "label": "TURN password",
+      "hint": "TURN password for the TURN username.",
+      "placeholder": "turn-password",
+      "min": 1,
+      "max": 500,
+      "required": false,
+      "env_variable": "TURN_PASSWORD"
+    },
+    {
+      "type": "text",
+      "label": "TURN TLS host",
+      "hint": "TURN-over-TLS hostname. Leave empty if you are not using TURN over TLS.",
+      "placeholder": "turn.example.com",
+      "min": 1,
+      "max": 255,
+      "required": false,
+      "env_variable": "TURNS_HOST"
+    },
+    {
+      "type": "text",
+      "label": "TURN TLS port",
+      "hint": "TURN-over-TLS port, normally 443.",
+      "placeholder": "443",
+      "min": 1,
+      "max": 5,
+      "default": "443",
+      "required": false,
+      "env_variable": "TURNS_PORT"
     },
     {
       "type": "random",

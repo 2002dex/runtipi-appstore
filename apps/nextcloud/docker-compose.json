@@ -2,7 +2,7 @@
   "services": [
     {
       "name": "nextcloud",
-      "image": "nextcloud:33-apache",
+      "image": "nextcloud:34-apache",
       "isMain": true,
       "internalPort": 80,
       "environment": [
@@ -50,8 +50,13 @@
           "containerPath": "/var/www/html"
         },
         {
-          "hostPath": "/mnt/usb-temp-nextcloud",
-          "containerPath": "/external"
+          "type": "bind",
+          "hostPath": "/mnt/usb-hub",
+          "containerPath": "/usb",
+          "bind": {
+            "propagation": "rslave"
+          },
+          "readOnly": false
         }
       ]
     },
@@ -92,16 +97,12 @@
     },
     {
       "name": "cron",
-      "image": "nextcloud:33-apache",
+      "image": "nextcloud:34-apache",
       "dependsOn": ["db-nextcloud", "redis-nextcloud"],
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/nextcloud",
           "containerPath": "/var/www/html"
-        },
-        {
-          "hostPath": "/mnt/usb-temp-nextcloud",
-          "containerPath": "/external"
         }
       ],
       "entrypoint": "/cron.sh"

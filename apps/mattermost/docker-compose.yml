@@ -21,8 +21,10 @@ services:
       - ${APP_DATA_DIR}/mattermost/plugins:/mattermost/plugins:rw
       - ${APP_DATA_DIR}/mattermost/client/plugins:/mattermost/client/plugins:rw
       - ${APP_DATA_DIR}/mattermost/bleve-indexes:/mattermost/bleve-indexes:rw
-    tmpfs:
-      - /tmp
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          size: 536870912 # 512MB RAM cap
     environment:
       - TZ=${TZ:-Asia/Kolkata}
       - MM_SQLSETTINGS_DRIVERNAME=postgres
@@ -44,9 +46,14 @@ services:
     read_only: true
     volumes:
       - ${APP_DATA_DIR}/db:/var/lib/postgresql
-    tmpfs:
-      - /tmp
-      - /var/run/postgresql
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          size: 536870912 # 512MB RAM cap
+      - type: tmpfs
+        target: /var/run/postgresql
+        tmpfs:
+          size: 67108864 # 64MB RAM cap
     environment:
       - TZ=${TZ:-Asia/Kolkata}
       - POSTGRES_USER=mmuser

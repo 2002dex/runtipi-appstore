@@ -15,3 +15,49 @@
 Do you want to learn more about how you can use Nextcloud to access, share, and protect your files, calendars, contacts, communication & more at home and in your organization? [**Learn about all our Features**](https://nextcloud.com/athome/).
 
 > Warning ⚠️: This is a simple nextcloud instance running only the nextcloud server and a postgres database. If you want features like cron and redis, please use the nextcloud app in the appstore.
+
+### Tips
+- Remember to backup your data !
+- After an upgrade to a major version of Nextcloud you should check the admin panel for warnings.
+- You can **ignore** an update if you are not ready. *(but don't delay it too much)*
+- If you missed an intermediate version you can use a "user-config" to catch up. *(you can only update to the next major and can't skip iterations)*
+
+### User-Config example
+here is an example to set nextcloud to version 30:
+``` yaml
+services:
+ nextcloud-mini:
+   image: nextcloud:30-apache
+```
+
+### Useful command
+!!! **Make sure to know what you are doing and backup your data.** !!!
+
+1. Access your Smritimegh host command line
+2. Go to your Smritimegh installation directory
+```bash
+cd smritimegh
+```
+
+#### Fix the files ownership
+```bash
+chown -R www-data:www-data app-data/migrated/nextcloud-mini/data/nextcloud/
+```
+
+#### Edit your configuration (be careful)
+This can be necessary in some use case *(maintenance mode, add a new domain...)*
+
+```bash
+nano app-data/migrated/nextcloud-mini/data/nextcloud/config/config.php
+```
+
+#### Manual update
+```bash
+docker exec -it  nextcloud-mini_migrated-nextcloud-mini-1 php occ upgrade
+```
+
+#### Interact with database (advanced users)
+
+```bash
+docker exec -it nextcloud-mini_migrated-nextcloud-mini-db-1 psql -d nextcloud -U nextcloud
+```

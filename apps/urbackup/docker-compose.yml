@@ -8,13 +8,13 @@ services:
     environment:
       - PUID=0
       - PGID=0
-      - TZ=${TZ:-Asia/Kolkata}
+      - TZ=Asia/Kolkata
       - ZFS_IMAGE=mypool/urbackup/images
       - ZFS_FILES=mypool/urbackup/files
     volumes:
       - /mnt/urbackup/database:/var/urbackup
       - /mnt/urbackup/settings:/etc/urbackup
-      - /mnt/urbackup:/mnt/urbackup
+      - /mnt/urbackup:/mnt/urbackup:rshared
     devices:
       - /dev/zfs:/dev/zfs
     ports:
@@ -22,29 +22,3 @@ services:
       - "55414:55414"
       - "55415:55415"
       - "35623:35623/udp"
-    labels:
-      # Main
-      traefik.enable: true
-      traefik.http.middlewares.urbackup-web-redirect.redirectscheme.scheme: https
-      traefik.http.services.urbackup.loadbalancer.server.port: 55414
-      # Web
-      traefik.http.routers.urbackup-insecure.rule: Host(`${APP_DOMAIN}`)
-      traefik.http.routers.urbackup-insecure.entrypoints: web
-      traefik.http.routers.urbackup-insecure.service: urbackup
-      traefik.http.routers.urbackup-insecure.middlewares: urbackup-web-redirect
-      # Websecure
-      traefik.http.routers.urbackup.rule: Host(`${APP_DOMAIN}`)
-      traefik.http.routers.urbackup.entrypoints: websecure
-      traefik.http.routers.urbackup.service: urbackup
-      traefik.http.routers.urbackup.tls.certresolver: myresolver
-      # Local domain
-      traefik.http.routers.urbackup-local-insecure.rule: Host(`urbackup.${LOCAL_DOMAIN}`)
-      traefik.http.routers.urbackup-local-insecure.entrypoints: web
-      traefik.http.routers.urbackup-local-insecure.service: urbackup
-      traefik.http.routers.urbackup-local-insecure.middlewares: urbackup-web-redirect
-      # Local domain secure
-      traefik.http.routers.urbackup-local.rule: Host(`urbackup.${LOCAL_DOMAIN}`)
-      traefik.http.routers.urbackup-local.entrypoints: websecure
-      traefik.http.routers.urbackup-local.service: urbackup
-      traefik.http.routers.urbackup-local.tls: true
-      runtipi.managed: true

@@ -4,7 +4,7 @@
   "services": [
     {
       "name": "homeassistant",
-      "image": "ghcr.io/home-assistant/home-assistant:2026.7",
+      "image": "ghcr.io/home-assistant/home-assistant:2026.10.4",
       "internalPort": 8123,
       "isMain": true,
       "volumes": [
@@ -13,7 +13,7 @@
           "containerPath": "/config"
         },
         {
-          "hostPath": "${APP_DATA_DIR}/data/localtime",
+          "hostPath": "/etc/localtime",
           "containerPath": "/etc/localtime",
           "readOnly": true
         },
@@ -33,7 +33,7 @@
     },
     {
       "name": "matter-server",
-      "image": "ghcr.io/matter-js/matterjs-server:1.1.7",
+      "image": "ghcr.io/matter-js/matterjs-server:1.5.5",
       "networkMode": "host",
       "volumes": [
         {

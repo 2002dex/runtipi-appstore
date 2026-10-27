@@ -20,7 +20,7 @@
         },
         {
           "key": "TZ",
-          "value": "${TZ:-Asia/Kolkata}"
+          "value": "Asia/Kolkata"
         },
         {
           "key": "ZFS_IMAGE",
@@ -67,7 +67,10 @@
         },
         {
           "hostPath": "/mnt/urbackup",
-          "containerPath": "/mnt/urbackup"
+          "containerPath": "/mnt/urbackup",
+          "bind": {
+            "propagation": "rshared"
+          }
         }
       ]
     }

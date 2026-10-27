@@ -1,8 +1,8 @@
 version: '3'
 services:
-  homeassistant-1:
-    image: ghcr.io/home-assistant/home-assistant:2026.7
-    container_name: homeassistant-1
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:2026.10.4
+    container_name: homeassistant
     environment:
       - TZ=${TZ}
     restart: unless-stopped
@@ -35,7 +35,7 @@ services:
       traefik.http.routers.homeassistant-local.tls: true
       runtipi.managed: true
   matter-server:
-    image: ghcr.io/matter-js/matterjs-server:1.1.7
+    image: ghcr.io/matter-js/matterjs-server:1.5.5
     container_name: matter-server
     network_mode: host
     volumes:

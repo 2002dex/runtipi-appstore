@@ -4,7 +4,7 @@
   "services": [
     {
       "name": "frigate",
-      "image": "ghcr.io/blakeblackshear/frigate:0.17.2-rk",
+      "image": "ghcr.io/blakeblackshear/frigate:0.18.2-rk",
       "isMain": true,
       "internalPort": 8971,
       "networkMode": "host",
@@ -13,42 +13,34 @@
       "stopGracePeriod": "30s",
       "devices": [
         "/dev/dri",
-        "/dev/dri/card0:/dev/dri/card0",
-        "/dev/video-dec0:/dev/video-dec0",
-        "/dev/video-enc0:/dev/video-enc0",
+        "/dev/dma_heap",
+        "/dev/video-dec0",
+        "/dev/video-enc0",
         "/dev/rga",
-        "/dev/mpp_service",
-        "/dev/dri/renderD128:/dev/dri/renderD128",
-        "/dev/dri/renderD129"
+        "/dev/mpp_service"
       ],
-      "addPorts": [
+      "ports": [
         {
-          "containerPort": 8554,
-          "hostPort": 8554,
-          "tcp": true,
-          "interface": "${NETWORK_INTERFACE:-0.0.0.0}"
-        },
-        {
-          "containerPort": 8971,
-          "hostPort": 8971,
-          "tcp": true
+          "hostPort": 5000,
+          "containerPort": 5000
         }
       ],
       "environment": [
         { 
-          "key": "FRIGATE_RTSP_PASSWORD", 
-          "value": "password" 
-        },
-        { 
           "key": "TZ", 
           "value": "${TZ}" 
         },
-        {
-          "key": "FRIGATE_JWT_SECRET",
-          "value": "iBFcoalGWCj30UW2BzLnShsRsRF7zcnJ"
+        { 
+          "key": "FRIGATE_JWT_SECRET", 
+          "value": "${FRIGATE_JWT_SECRET}" 
         }
       ],
       "volumes": [
+        {
+          "hostPath": "/sys",
+          "containerPath": "/sys",
+          "readOnly": true
+        },
         {
           "hostPath": "/etc/localtime",
           "containerPath": "/etc/localtime",
