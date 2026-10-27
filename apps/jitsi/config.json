@@ -10,7 +10,7 @@
     "network"
   ],
   "description": "Jitsi Meet is an open-source video conferencing solution. This Runtipi package runs the Jitsi Meet web frontend, Prosody XMPP server, Jicofo conference focus, and Jitsi Videobridge with Traefik-managed web routing and a direct UDP media port.",
-  "tipi_version": 2,
+  "tipi_version": 3,
   "version": "stable-11248-2",
   "source": "https://github.com/jitsi/docker-jitsi-meet",
   "website": "https://jitsi.org/jitsi-meet/",

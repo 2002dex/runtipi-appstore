@@ -10,10 +10,9 @@ services:
       - /tmp:size=16M,mode=1777,noexec
     volumes:
       - ${APP_DATA_DIR}/web/config:/config
-      - ${APP_DATA_DIR}/web/storage:/storage
-      - ${APP_DATA_DIR}/web/transcripts:/usr/share/jitsi-meet/transcripts:ro
-      - ${APP_DATA_DIR}/web/tmp-crontabs:/var/spool/cron/crontabs
-      - ${APP_DATA_DIR}/web/tmp-load-test:/usr/share/jitsi-meet/load-test
+      - ${APP_DATA_DIR}/storage/web:/storage
+      - ${APP_DATA_DIR}/storage/transcripts:/usr/share/jitsi-meet/transcripts:ro
+      - ${APP_DATA_DIR}/tmp/web-load-test:/usr/share/jitsi-meet/load-test
     environment:
       TZ: ${TZ}
       PUBLIC_URL: ${APP_PROTOCOL}://${APP_DOMAIN}
@@ -60,25 +59,30 @@ services:
 
   prosody-init:
     image: alpine:3.22
-    restart: unless-stopped
+    restart: "no"
     user: "0:0"
     volumes:
       - ${APP_DATA_DIR}/prosody/config:/config
       - ${APP_DATA_DIR}/prosody/prosody-plugins-custom:/prosody-plugins-custom
-      - ${APP_DATA_DIR}/prosody/storage:/var/lib/prosody
+      - ${APP_DATA_DIR}/storage/prosody:/var/lib/prosody
+      - ${APP_DATA_DIR}/storage/web:/storage/web
+      - ${APP_DATA_DIR}/storage/transcripts:/storage/transcripts
+      - ${APP_DATA_DIR}/tmp/web-load-test:/tmp/web-load-test
     command:
       - /bin/sh
       - -c
       - |
         set -e
+        mkdir -p /config /prosody-plugins-custom /var/lib/prosody /storage/web /storage/transcripts /tmp/web-load-test
         chown -R 1000:1000 \
           /config \
           /prosody-plugins-custom \
-          /var/lib/prosody
-        touch /tmp/ready &&
-        exec sleep infinity
-    healthcheck:
-      test: ["CMD", "test", "-f", "/tmp/ready"]
+          /var/lib/prosody \
+          /storage/web \
+          /storage/transcripts \
+          /tmp/web-load-test
+        chmod -R 775 /var/lib/prosody /storage/web /storage/transcripts /tmp/web-load-test
+
   prosody:
     image: ghcr.io/jitsi/prosody:stable-11248-2
     restart: unless-stopped
@@ -89,7 +93,7 @@ services:
     volumes:
       - ${APP_DATA_DIR}/prosody/config:/config
       - ${APP_DATA_DIR}/prosody/prosody-plugins-custom:/prosody-plugins-custom
-      - ${APP_DATA_DIR}/prosody/storage:/var/lib/prosody
+      - ${APP_DATA_DIR}/storage/prosody:/var/lib/prosody
     environment:
       TZ: ${TZ}
       PUBLIC_URL: ${APP_PROTOCOL}://${APP_DOMAIN}
@@ -128,7 +132,8 @@ services:
       TURNS_HOST: ${TURNS_HOST}
       TURNS_PORT: ${TURNS_PORT}
     depends_on:
-      - prosody-init
+      prosody-init:
+        condition: service_completed_successfully
     networks:
       meet.jitsi:
         aliases:
@@ -139,7 +144,7 @@ services:
     restart: unless-stopped
     read_only: true
     tmpfs:
-      - /run:size=16M,mode=1750,exec
+      - /run:size=32M,mode=1750,exec
       - /tmp:size=16M,mode=1777,noexec
     volumes:
       - ${APP_DATA_DIR}/jicofo:/config
@@ -174,7 +179,7 @@ services:
     restart: unless-stopped
     read_only: true
     tmpfs:
-      - /run:size=16M,mode=1750,exec
+      - /run:size=32M,mode=1750,exec
       - /tmp:size=16M,mode=1777,noexec
     ports:
       - "10000:10000/udp"
@@ -195,7 +200,7 @@ services:
       JVB_XMPP_AUTH_DOMAIN: auth.meet.jitsi
       JVB_XMPP_INTERNAL_MUC_DOMAIN: internal-muc.meet.jitsi
       JVB_XMPP_PORT: "5222"
-      
+
       JVB_AUTH_USER: jvb
       JVB_AUTH_PASSWORD: ${JVB_AUTH_PASSWORD}
       JVB_BREWERY_MUC: jvbbrewery
