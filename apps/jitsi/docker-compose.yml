@@ -59,7 +59,7 @@ services:
 
   prosody-init:
     image: alpine:3.22
-    restart: "no"
+    restart: unless-stopped
     user: "0:0"
     volumes:
       - ${APP_DATA_DIR}/prosody/config:/config
@@ -132,8 +132,7 @@ services:
       TURNS_HOST: ${TURNS_HOST}
       TURNS_PORT: ${TURNS_PORT}
     depends_on:
-      prosody-init:
-        condition: service_completed_successfully
+      - prosody-init
     networks:
       meet.jitsi:
         aliases:
