@@ -83,6 +83,10 @@ services:
           /tmp/web-load-test
         chmod -R 775 /var/lib/prosody /storage/web /storage/transcripts /tmp/web-load-test
 
+        touch /tmp/ready &&
+        exec sleep infinity
+    healthcheck:      
+      test: ["CMD", "test", "-f", "/tmp/ready"]
   prosody:
     image: ghcr.io/jitsi/prosody:stable-11248-2
     restart: unless-stopped
